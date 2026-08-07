@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plant Disease Detection — Smart Agriculture Assistant</title>
+  <meta name="description" content="Upload a leaf photo to detect plant disease with confidence score, symptoms, treatment, prevention and medicine recommendations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Plant Disease Detection — Smart Agriculture Assistant" />
+  <meta property="og:description" content="AI leaf diagnosis with treatment and prevention guidance." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body data-root="../">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">coronavirus</span>Plant health</span>
+        <h1>Plant Disease Detection</h1>
+        <p>Take a clear photo of the affected leaf in daylight for the most accurate diagnosis.</p>
+      </header>
+
+      <section class="card reveal">
+        <form id="diseaseForm" novalidate>
+          <div class="dropzone" id="diseaseDrop" role="button" tabindex="0"
+               aria-label="Upload a leaf image, or drag and drop it here">
+            <span class="mi" aria-hidden="true">add_a_photo</span>
+            <h3 class="mt-1">Drop a leaf image here</h3>
+            <p class="small muted">or click to browse · JPG, PNG or WEBP · max 8 MB</p>
+          </div>
+          <input type="file" id="diseaseFile" accept="image/*" class="visually-hidden" />
+          <img id="diseasePreview" class="preview-img hidden" alt="Preview of the uploaded leaf image" />
+          <span class="error-text" id="diseaseError"></span>
+          <div class="row wrap actions mt-2">
+            <button class="btn btn--primary" type="submit" id="diseaseSubmit" disabled>
+              <span class="mi">biotech</span>Detect disease</button>
+            <button class="btn btn--ghost" type="button" id="diseaseClear"><span class="mi">close</span>Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="mt-2" id="diseaseResult" aria-live="polite"></section>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/disease.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Smart Agriculture Assistant — Responsive rules
+   Breakpoints: 1200 / 1024 / 768 / 520
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .grid.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer__grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 232px; }
+  .grid.cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero { padding: 28px; }
+}
+
+/* ---------- Mobile: sidebar becomes an off-canvas drawer ---------- */
+@media (max-width: 900px) {
+  .hamburger { display: grid; }
+
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; height: 100vh;
+    width: 280px; flex-basis: 280px; z-index: 80;
+    transform: translateX(-104%);
+    transition: transform .34s var(--ease);
+    box-shadow: var(--shadow-lg);
+    background: var(--surface);
+    padding-top: 14px;
+  }
+  .sidebar.is-open { transform: none; }
+  .sidebar__close { display: grid !important; }
+
+  .content { padding: 16px; }
+  .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .grid.auto { grid-template-columns: 1fr; }
+  .footer__grid { grid-template-columns: 1fr; gap: 18px; }
+  .footer__bottom { flex-direction: column; }
+  .result-hero { flex-direction: column; align-items: flex-start; text-align: left; }
+  .brand__name { font-size: .95rem; }
+  .navbar { gap: 8px; padding: 0 12px; }
+  .chat-panel { right: 10px; left: 10px; width: auto; bottom: 84px; height: min(72vh, 520px); }
+  .chat-fab { right: 14px; bottom: 14px; width: 54px; height: 54px; }
+  .toast-stack { right: 10px; left: 10px; bottom: 84px; max-width: none; }
+}
+
+@media (max-width: 520px) {
+  h1 { font-size: 1.6rem; }
+  .card { padding: 16px; border-radius: 18px; }
+  .hero { padding: 22px 18px; border-radius: 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .btn { width: 100%; }
+  .row.actions .btn { width: auto; }
+  .mic-btn { width: 108px; height: 108px; }
+  .navbar__actions .label-text { display: none; }
+}
+
+/* ---------- Print (report export friendly) ---------- */
+@media print {
+  .navbar, .sidebar, .footer, .chat-fab, .chat-panel, .toast-stack, .no-print { display: none !important; }
+  body { background: #fff; }
+  .content { padding: 0; }
+  .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+}

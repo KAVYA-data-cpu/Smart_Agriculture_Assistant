@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Crop Recommendation — Smart Agriculture Assistant</title>
+  <meta name="description" content="Get an AI crop recommendation from soil nutrients (N, P, K), temperature, humidity, pH, rainfall and your city." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Crop Recommendation — Smart Agriculture Assistant" />
+  <meta property="og:description" content="AI crop recommendation from soil nutrients and live weather." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body data-root="../">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">psychiatry</span>Advisory</span>
+        <h1>Crop Recommendation</h1>
+        <p>Enter your soil test values and location. The model returns the crop best suited to your field.</p>
+      </header>
+
+      <div class="grid" style="grid-template-columns: minmax(0,1.15fr) minmax(0,1fr)">
+        <!-- ---------------- Form ---------------- -->
+        <section class="card reveal">
+          <h2 class="card__title"><span class="mi">edit_note</span>Field parameters</h2>
+          <form id="cropForm" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="N">Nitrogen (N) <span class="hint">kg/ha</span></label>
+                <input class="input" id="N" name="N" type="number" step="any" min="0" max="200" placeholder="e.g. 90" required />
+                <span class="error-text" data-error-for="N"></span>
+              </div>
+              <div class="field">
+                <label for="P">Phosphorus (P) <span class="hint">kg/ha</span></label>
+                <input class="input" id="P" name="P" type="number" step="any" min="0" max="200" placeholder="e.g. 42" required />
+                <span class="error-text" data-error-for="P"></span>
+              </div>
+              <div class="field">
+                <label for="K">Potassium (K) <span class="hint">kg/ha</span></label>
+                <input class="input" id="K" name="K" type="number" step="any" min="0" max="220" placeholder="e.g. 43" required />
+                <span class="error-text" data-error-for="K"></span>
+              </div>
+              <div class="field">
+                <label for="temperature">Temperature <span class="hint">°C</span></label>
+                <input class="input" id="temperature" name="temperature" type="number" step="any" min="-10" max="60" placeholder="e.g. 24.5" required />
+                <span class="error-text" data-error-for="temperature"></span>
+              </div>
+              <div class="field">
+                <label for="humidity">Humidity <span class="hint">%</span></label>
+                <input class="input" id="humidity" name="humidity" type="number" step="any" min="0" max="100" placeholder="e.g. 82" required />
+                <span class="error-text" data-error-for="humidity"></span>
+              </div>
+              <div class="field">
+                <label for="ph">Soil pH <span class="hint">0 – 14</span></label>
+                <input class="input" id="ph" name="ph" type="number" step="any" min="0" max="14" placeholder="e.g. 6.5" required />
+                <span class="error-text" data-error-for="ph"></span>
+              </div>
+              <div class="field">
+                <label for="rainfall">Rainfall <span class="hint">mm</span></label>
+                <input class="input" id="rainfall" name="rainfall" type="number" step="any" min="0" max="1000" placeholder="e.g. 202" required />
+                <span class="error-text" data-error-for="rainfall"></span>
+              </div>
+              <div class="field">
+                <label for="city">City</label>
+                <input class="input" id="city" name="city" type="text" maxlength="80" placeholder="e.g. Pune" required />
+                <span class="error-text" data-error-for="city"></span>
+              </div>
+            </div>
+            <div class="row wrap actions mt-2">
+              <button class="btn btn--primary" type="submit" id="cropSubmit">
+                <span class="mi">auto_awesome</span>Get recommendation</button>
+              <button class="btn btn--ghost" type="button" id="cropSample"><span class="mi">bolt</span>Fill sample</button>
+              <button class="btn btn--ghost" type="reset"><span class="mi">restart_alt</span>Reset</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ---------------- Result ---------------- -->
+        <section class="card reveal" id="cropResult" aria-live="polite">
+          <div class="empty"><span class="mi">insights</span>
+            <p class="mt-1">Your prediction card will appear here.</p></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/crop.js"></script>
+</body>
+</html>

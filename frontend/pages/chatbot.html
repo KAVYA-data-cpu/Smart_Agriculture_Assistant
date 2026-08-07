@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Chatbot — Smart Agriculture Assistant</title>
+  <meta name="description" content="Chat with an agronomy AI assistant about crops, pests, fertilizer and market prices, with saved conversation sessions." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AI Chatbot — Smart Agriculture Assistant" />
+  <meta property="og:description" content="Conversational agronomy help with session history." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body data-root="../" data-chat-widget="off">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">forum</span>Assistant</span>
+        <h1>AI Chatbot</h1>
+        <p>Ask anything about farming — the assistant remembers the conversation.</p>
+      </header>
+
+      <div class="grid" style="grid-template-columns: minmax(0,300px) minmax(0,1fr)">
+        <section class="card reveal">
+          <div class="row spread">
+            <h2 class="card__title" style="margin:0"><span class="mi">chat_bubble</span>Sessions</h2>
+            <button class="btn btn--ghost btn--sm" id="newSession"><span class="mi">add</span>New</button>
+          </div>
+          <div class="mt-1" id="sessionList" aria-live="polite"></div>
+        </section>
+
+        <section class="card reveal" style="padding:0;overflow:hidden;display:flex;flex-direction:column;min-height:70vh">
+          <div class="chat-log" id="pageLog" style="flex:1" aria-live="polite"></div>
+          <form class="chat-input" id="pageChatForm">
+            <label class="visually-hidden" for="pageChatText">Your message</label>
+            <input class="input" id="pageChatText" autocomplete="off" placeholder="e.g. Best fertilizer for wheat in sandy soil?" required />
+            <button class="chat-send" type="submit" aria-label="Send message"><span class="mi">send</span></button>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

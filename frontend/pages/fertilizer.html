@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fertilizer Recommendation — Smart Agriculture Assistant</title>
+  <meta name="description" content="Get a balanced fertilizer recommendation from soil nutrients, crop type, soil type and weather, with a full recommendation history." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Fertilizer Recommendation — Smart Agriculture Assistant" />
+  <meta property="og:description" content="Balanced NPK fertilizer guidance tailored to your soil and crop." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body data-root="../">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">science</span>Advisory</span>
+        <h1>Fertilizer Recommendation</h1>
+        <p>Match the right fertilizer and dosage to your soil chemistry and crop.</p>
+      </header>
+
+      <div class="grid" style="grid-template-columns: minmax(0,1.15fr) minmax(0,1fr)">
+        <section class="card reveal">
+          <h2 class="card__title"><span class="mi">edit_note</span>Soil &amp; crop details</h2>
+          <form id="fertForm" novalidate>
+            <div class="form-grid">
+              <div class="field"><label for="nitrogen">Nitrogen (N)</label>
+                <input class="input" id="nitrogen" name="nitrogen" type="number" step="any" min="0" max="300" placeholder="e.g. 37" required />
+                <span class="error-text" data-error-for="nitrogen"></span></div>
+              <div class="field"><label for="phosphorous">Phosphorous (P)</label>
+                <input class="input" id="phosphorous" name="phosphorous" type="number" step="any" min="0" max="300" placeholder="e.g. 0" required />
+                <span class="error-text" data-error-for="phosphorous"></span></div>
+              <div class="field"><label for="potassium">Potassium (K)</label>
+                <input class="input" id="potassium" name="potassium" type="number" step="any" min="0" max="300" placeholder="e.g. 0" required />
+                <span class="error-text" data-error-for="potassium"></span></div>
+              <div class="field"><label for="city">City</label>
+                <input class="input" id="city" name="city" type="text" placeholder="e.g. Hyderabad" required />
+                <span class="error-text" data-error-for="city"></span>
+                <span class="hint" style="display:block;margin-top:4px">We use this to fetch live temperature &amp; humidity for your area.</span></div>
+              <div class="field"><label for="moisture">Soil moisture <span class="hint">%</span></label>
+                <input class="input" id="moisture" name="moisture" type="number" step="any" min="0" max="100" placeholder="e.g. 38" required />
+                <span class="error-text" data-error-for="moisture"></span></div>
+              <div class="field"><label for="soil_type">Soil type</label>
+                <select class="input" id="soil_type" name="soil_type" required>
+                  <option value="">Select soil type</option>
+                  <option>Sandy</option><option>Loamy</option><option>Black</option>
+                  <option>Red</option><option>Clayey</option>
+                </select>
+                <span class="error-text" data-error-for="soil_type"></span></div>
+              <div class="field"><label for="crop_type">Crop type</label>
+                <select class="input" id="crop_type" name="crop_type" required>
+                  <option value="">Select crop</option>
+                  <option>Maize</option><option>Sugarcane</option><option>Cotton</option>
+                  <option>Tobacco</option><option>Paddy</option><option>Barley</option>
+                  <option>Wheat</option><option>Millets</option><option>Oil seeds</option>
+                  <option>Pulses</option><option>Ground Nuts</option>
+                </select>
+                <span class="error-text" data-error-for="crop_type"></span></div>
+            </div>
+            <div class="row wrap actions mt-2">
+              <button class="btn btn--primary" type="submit" id="fertSubmit">
+                <span class="mi">auto_awesome</span>Recommend fertilizer</button>
+              <button class="btn btn--ghost" type="reset"><span class="mi">restart_alt</span>Reset</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card reveal" id="fertResult" aria-live="polite">
+          <div class="empty"><span class="mi">science</span>
+            <p class="mt-1">Your fertilizer plan will appear here.</p></div>
+        </section>
+      </div>
+
+      <!-- ------------------------- History ------------------------- -->
+      <div class="row spread wrap mt-2">
+        <h2 style="margin:0">Fertilizer history</h2>
+        <div class="row">
+          <input class="input" id="fertSearch" type="search" placeholder="Search history…" aria-label="Search fertilizer history" style="min-width:200px" />
+          <button class="btn btn--ghost btn--sm" id="fertExport"><span class="mi">download</span>Export CSV</button>
+        </div>
+      </div>
+      <section class="card mt-1 reveal" id="fertHistory" aria-live="polite"></section>
+      <div class="pagination" id="fertPager"></div>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/table.js"></script>
+  <script src="../js/fertilizer.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+fastapi
+uvicorn[standard]
+python-multipart
+
+pydantic
+python-dotenv
+requests
+
+# Data / ML
+numpy
+pandas
+joblib
+scikit-learn
+torch
+torchvision
+transformers
+
+# Images / OCR / PDF
+Pillow
+easyocr
+PyMuPDF
+
+# Speech / translation
+gTTS
+deep-translator
+groq
+
+# Reports / charts / feeds
+matplotlib
+reportlab
+feedparser
+
+# Database
+psycopg2-binary

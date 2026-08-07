@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soil Health Report — Smart Agriculture Assistant</title>
+  <meta name="description" content="Upload a soil laboratory report (PDF or photo) and get an instant structured analysis of nutrients, pH and organic carbon." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Soil Health Report — Smart Agriculture Assistant" />
+  <meta property="og:description" content="Turn a soil lab PDF into a clear, actionable health report." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body data-root="../">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">terrain</span>Analysis</span>
+        <h1>Soil Health</h1>
+        <p>Upload your soil testing laboratory report (PDF or photo) — we extract and structure the results for you.</p>
+      </header>
+
+      <section class="card reveal">
+        <form id="soilForm" novalidate>
+          <div class="dropzone" id="soilDrop" role="button" tabindex="0"
+               aria-label="Upload a soil report as PDF or image, or drag and drop it here">
+            <span class="mi" aria-hidden="true">picture_as_pdf</span>
+            <h3 class="mt-1">Drop your soil report here</h3>
+            <p class="small muted">or click to browse · PDF, JPG or PNG · max 10 MB</p>
+            <p class="small" id="soilFileName" style="font-weight:650"></p>
+          </div>
+          <input type="file" id="soilFile" name="file" accept="application/pdf,.pdf,image/png,image/jpeg,image/jpg,.png,.jpg,.jpeg" class="visually-hidden" />
+          <span class="error-text" id="soilError"></span>
+          <div class="row wrap actions mt-2">
+            <button class="btn btn--primary" type="submit" id="soilSubmit" disabled>
+              <span class="mi">upload_file</span>Analyse report</button>
+            <button class="btn btn--ghost" type="button" id="soilClear"><span class="mi">close</span>Clear</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="mt-2" id="soilResult" aria-live="polite"></section>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/soil.js"></script>
+</body>
+</html>

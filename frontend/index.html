@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Agriculture Assistant — AI Farming Dashboard</title>
+  <meta name="description" content="AI-powered farming dashboard for crop and fertilizer recommendation, soil health, plant disease detection, market intelligence and agriculture news." />
+  <meta name="keywords" content="smart agriculture, crop recommendation, fertilizer, soil health, plant disease detection, market prices, farming AI" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Smart Agriculture Assistant — AI Farming Dashboard" />
+  <meta property="og:description" content="One dashboard for crop advisory, soil health, disease detection and market intelligence." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="/app/index.html" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body data-root="./">
+  <a href="#main" class="visually-hidden">Skip to main content</a>
+  <header data-shell="navbar"></header>
+
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+
+    <main class="content" id="main">
+      <!-- ============================ Hero ============================ -->
+      <section class="hero reveal" aria-labelledby="heroTitle">
+        <div class="hero__inner">
+          <div class="badge-row">
+            <span class="hero-badge">🌱 AI Advisory</span>
+            <span class="hero-badge">📈 Live Market Data</span>
+            <span class="hero-badge">🎙️ Voice &amp; Chat</span>
+          </div>
+          <h1 id="heroTitle">Farm smarter with data you can trust</h1>
+          <p>Crop and fertilizer recommendations, soil analysis, plant disease detection and market
+             intelligence — unified in one premium dashboard powered by your FastAPI engine.</p>
+          <div class="row wrap actions">
+            <a class="btn btn--light" href="pages/crop.html"><span class="mi">psychiatry</span>Recommend a crop</a>
+            <a class="btn btn--light" href="pages/market.html"><span class="mi">insights</span>Market dashboard</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================== Statistics ========================= -->
+      <h2 class="mt-2">At a glance</h2>
+      <section class="grid cols-4 mb-2" id="statsGrid" aria-label="Key statistics">
+        <div class="card card--hover reveal stat"><div class="stat__icon"><span class="mi">insights</span></div>
+          <div><div class="stat__value" id="statPredictions">—</div><div class="stat__label">Crop predictions</div></div></div>
+        <div class="card card--hover reveal stat"><div class="stat__icon"><span class="mi">science</span></div>
+          <div><div class="stat__value" id="statFertilizer">—</div><div class="stat__label">Fertilizer advices</div></div></div>
+        <div class="card card--hover reveal stat"><div class="stat__icon"><span class="mi">grass</span></div>
+          <div><div class="stat__value" id="statTopCrop">—</div><div class="stat__label">Most recommended crop</div></div></div>
+        <div class="card card--hover reveal stat"><div class="stat__icon"><span class="mi">schedule</span></div>
+          <div><div class="stat__value" id="statLast" style="font-size:1rem">—</div><div class="stat__label">Last prediction</div></div></div>
+      </section>
+
+      <!-- =========================== Modules =========================== -->
+      <div class="row spread wrap mt-2">
+        <h2 style="margin:0">Modules</h2>
+        <a class="btn btn--ghost btn--sm" href="pages/history.html"><span class="mi">history</span>View history</a>
+      </div>
+      <section class="grid auto mt-1" aria-label="Feature modules">
+        <a class="card card--hover feature-card reveal" href="pages/crop.html">
+          <span class="ficon"><span class="mi">psychiatry</span></span>
+          <h3>Crop Recommendation</h3>
+          <p class="small">Enter soil nutrients and weather to get the best crop for your field.</p>
+          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+
+        <a class="card card--hover feature-card reveal" href="pages/fertilizer.html">
+          <span class="ficon teal"><span class="mi">science</span></span>
+          <h3>Fertilizer Recommendation</h3>
+          <p class="small">Balanced NPK dosage guidance tailored to soil and crop type.</p>
+          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+
+        <a class="card card--hover feature-card reveal" href="pages/soil.html">
+          <span class="ficon amber"><span class="mi">terrain</span></span>
+          <h3>Soil Health</h3>
+          <p class="small">Upload a lab PDF report and get an instant structured breakdown.</p>
+          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+
+        <a class="card card--hover feature-card reveal" href="pages/disease.html">
+          <span class="ficon rose"><span class="mi">coronavirus</span></span>
+          <h3>Plant Disease Detection</h3>
+          <p class="small">Upload a leaf photo for diagnosis, treatment and prevention advice.</p>
+          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+
+        <a class="card card--hover feature-card reveal" href="pages/market.html">
+          <span class="ficon blue"><span class="mi">insights</span></span>
+          <h3>Market Intelligence</h3>
+          <p class="small">Prices, nearby mandis, trends, demand and future price forecasts.</p>
+          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+
+        <a class="card card--hover feature-card reveal" href="pages/news.html">
+          <span class="ficon violet"><span class="mi">newspaper</span></span>
+          <h3>Agriculture News</h3>
+          <p class="small">Curated headlines with category filters and instant search.</p>
+          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+
+        <a class="card card--hover feature-card reveal" href="pages/chatbot.html">
+          <span class="ficon"><span class="mi">forum</span></span>
+          <h3>AI Chatbot</h3>
+          <p class="small">Conversational agronomy help with saved session history.</p>
+          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+
+        <a class="card card--hover feature-card reveal" href="pages/voice.html">
+          <span class="ficon blue"><span class="mi">graphic_eq</span></span>
+          <h3>Voice Assistant</h3>
+          <p class="small">Speak your question, hear the answer — hands-free in the field.</p>
+          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+      </section>
+
+      <!-- ====================== Recent predictions ===================== -->
+      <div class="row spread wrap mt-2">
+        <h2 style="margin:0">Recent predictions</h2>
+        <a class="btn btn--ghost btn--sm" href="pages/history.html"><span class="mi">open_in_new</span>All records</a>
+      </div>
+      <section class="card mt-1 reveal" id="recentPanel" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <footer data-shell="footer"></footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Market Intelligence — Smart Agriculture Assistant</title>
+  <meta name="description" content="Live commodity prices, nearby markets, historical trends, demand analysis, selling recommendations and future price prediction for farmers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Market Intelligence — Smart Agriculture Assistant" />
+  <meta property="og:description" content="Prices, trends, demand and forecasts in one agricultural market dashboard." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+</head>
+<body data-root="../">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">insights</span>Insights</span>
+        <h1>Market Intelligence</h1>
+        <p>Track prices, spot demand and decide the best time and place to sell.</p>
+      </header>
+
+      <!-- Query bar -->
+      <section class="card card--glass reveal">
+        <form id="marketForm" class="form-grid" novalidate>
+          <div class="field"><label for="commodity">Commodity / crop</label>
+            <input class="input" id="commodity" name="commodity" placeholder="e.g. Wheat" required />
+            <span class="error-text" data-error-for="commodity"></span></div>
+          <div class="field"><label for="state">State <span class="hint">optional</span></label>
+            <input class="input" id="state" name="state" placeholder="e.g. Maharashtra" /></div>
+          <div class="field"><label for="district">District / City <span class="hint">optional</span></label>
+            <input class="input" id="district" name="district" placeholder="e.g. Pune" /></div>
+          <div class="field" style="justify-content:flex-end">
+            <button class="btn btn--primary" type="submit" id="marketSubmit">
+              <span class="mi">travel_explore</span>Analyse market</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- KPI cards -->
+      <section class="grid cols-4 mt-2" id="marketKpis" aria-label="Market key figures"></section>
+
+      <!-- Charts -->
+      <div class="grid mt-2" style="grid-template-columns: minmax(0,1.4fr) minmax(0,1fr)">
+        <section class="card reveal">
+          <h2 class="card__title"><span class="mi">show_chart</span>Historical price trend</h2>
+          <div id="trendState"><p class="small muted">Run an analysis to load the price history.</p></div>
+          <canvas id="trendChart" height="150" aria-label="Historical price trend chart" role="img"></canvas>
+        </section>
+        <section class="card reveal">
+          <h2 class="card__title"><span class="mi">bar_chart</span>Demand analysis</h2>
+          <div id="demandState"><p class="small muted">Demand signals will appear here.</p></div>
+          <canvas id="demandChart" height="220" aria-label="Demand analysis chart" role="img"></canvas>
+        </section>
+      </div>
+
+      <div class="grid mt-2" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr)">
+        <section class="card reveal">
+          <h2 class="card__title"><span class="mi">trending_up</span>Future price prediction</h2>
+          <div id="forecastPanel" aria-live="polite"><p class="small muted">Forecast will appear here.</p></div>
+          <canvas id="forecastChart" height="170" aria-label="Future price prediction chart" role="img"></canvas>
+        </section>
+        <section class="card reveal">
+          <h2 class="card__title"><span class="mi">storefront</span>Nearby markets</h2>
+          <div id="nearbyPanel" aria-live="polite"><p class="small muted">Nearby mandis will appear here.</p></div>
+        </section>
+      </div>
+
+      <section class="card mt-2 reveal">
+        <div class="row spread wrap">
+          <h2 class="card__title" style="margin:0"><span class="mi">summarize</span>Full market report</h2>
+          <div class="row wrap actions no-print">
+            <button class="btn btn--ghost btn--sm" id="reportPrint"><span class="mi">print</span>Print</button>
+            <button class="btn btn--primary btn--sm" id="reportExport"><span class="mi">download</span>Export report</button>
+          </div>
+        </div>
+        <div class="mt-1" id="reportPanel" aria-live="polite"><p class="small muted">The consolidated report will appear here.</p></div>
+      </section>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/market.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agriculture News — Smart Agriculture Assistant</title>
+  <meta name="description" content="Latest agriculture news with category filters, instant search and rich article cards for farmers and agri-businesses." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Agriculture News — Smart Agriculture Assistant" />
+  <meta property="og:description" content="Curated agriculture headlines, filtered by category." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body data-root="../">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">newspaper</span>Insights</span>
+        <h1>Agriculture News</h1>
+        <p>Policy, weather, technology and market headlines that affect your farm.</p>
+      </header>
+
+      <section class="card card--glass reveal">
+        <div class="row spread wrap">
+          <div class="chips" id="newsChips" role="tablist" aria-label="News categories"></div>
+          <div class="row">
+            <input class="input" id="newsSearch" type="search" placeholder="Search headlines…" aria-label="Search news" style="min-width:220px" />
+            <button class="btn btn--ghost btn--sm" id="newsRefresh"><span class="mi">refresh</span>Refresh</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid auto mt-2" id="newsGrid" aria-live="polite"></section>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/news.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prediction History — Smart Agriculture Assistant</title>
+  <meta name="description" content="Browse, search, sort and export every crop prediction made with the Smart Agriculture Assistant." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Prediction History — Smart Agriculture Assistant" />
+  <meta property="og:description" content="Searchable, sortable, exportable record of all crop predictions." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body data-root="../">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">history</span>Records</span>
+        <h1>Prediction History</h1>
+        <p>Every crop recommendation, searchable and exportable.</p>
+      </header>
+
+      <section class="card reveal">
+        <div class="row spread wrap" style="gap:12px">
+          <div class="row wrap" style="flex:1;min-width:240px">
+            <input class="input" id="histSearch" type="search" placeholder="Search by crop, city, value…"
+                   aria-label="Search prediction history" style="max-width:340px" />
+            <label class="visually-hidden" for="histSize">Rows per page</label>
+            <select class="input" id="histSize" style="width:auto">
+              <option value="10">10 / page</option><option value="25">25 / page</option><option value="50">50 / page</option>
+            </select>
+          </div>
+          <div class="row wrap actions">
+            <button class="btn btn--ghost btn--sm" id="histRefresh"><span class="mi">refresh</span>Refresh</button>
+            <button class="btn btn--primary btn--sm" id="histExport"><span class="mi">download</span>Export CSV</button>
+          </div>
+        </div>
+        <div class="mt-2" id="histTable" aria-live="polite"></div>
+        <div class="pagination" id="histPager"></div>
+      </section>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/table.js"></script>
+  <script src="../js/history.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voice Assistant — Smart Agriculture Assistant</title>
+  <meta name="description" content="Hands-free farming assistant: record your question for speech-to-text transcription and listen to spoken answers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Voice Assistant — Smart Agriculture Assistant" />
+  <meta property="og:description" content="Speech-to-text and text-to-speech for hands-free field use." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body data-root="../">
+  <header data-shell="navbar"></header>
+  <div class="layout">
+    <nav data-shell="sidebar"></nav>
+    <main class="content" id="main">
+      <header class="page-head reveal">
+        <span class="eyebrow"><span class="mi" style="font-size:15px">graphic_eq</span>Assistant</span>
+        <h1>Voice Assistant</h1>
+        <p>Speak your question, get it transcribed, and hear answers read back to you.</p>
+      </header>
+
+      <div class="grid cols-2">
+        <!-- Speech to text -->
+        <section class="card center reveal">
+          <h2 class="card__title" style="justify-content:center"><span class="mi">mic</span>Speech to text</h2>
+          <button class="mic-btn mt-2" id="micBtn" aria-label="Start recording" aria-pressed="false">
+            <span class="mi" aria-hidden="true">mic</span>
+          </button>
+          <div class="wave hidden" id="wave" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <p class="small muted mt-2" id="micStatus">Tap the microphone to start recording.</p>
+          <div id="transcriptPanel" class="mt-1" aria-live="polite"></div>
+        </section>
+
+        <!-- Text to speech -->
+        <section class="card reveal">
+          <h2 class="card__title"><span class="mi">volume_up</span>Text to speech</h2>
+          <form id="speakForm" novalidate>
+            <div class="field">
+              <label for="speakText">Text to read aloud</label>
+              <textarea class="input" id="speakText" name="text" rows="6" maxlength="1000"
+                        placeholder="Type or paste the advice you want to hear…" required></textarea>
+              <span class="error-text" data-error-for="text"></span>
+            </div>
+            <div class="row wrap actions mt-1">
+              <button class="btn btn--primary" type="submit" id="speakSubmit"><span class="mi">campaign</span>Speak it</button>
+              <button class="btn btn--ghost" type="reset"><span class="mi">restart_alt</span>Clear</button>
+            </div>
+          </form>
+          <div id="audioPanel" class="mt-2" aria-live="polite"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <footer data-shell="footer"></footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/voice.js"></script>
+</body>
+</html>
