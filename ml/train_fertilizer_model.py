@@ -10,6 +10,11 @@ data = pd.read_csv(
     "C://Users//Admin//OneDrive//Desktop//Smart-Agriculture-Assistant-old//datasets//Fertilizer Prediction.csv"
 )
 
+# FIX: strip any leading/trailing whitespace from column names
+# (the real dataset has "Humidity " with a trailing space, which caused
+# a feature-name mismatch when the app sends "Humidity" without one)
+data.columns = data.columns.str.strip()
+
 # Show first 5 rows
 print(data.head())
 

@@ -1,45 +1,47 @@
-from app.database.connection import cursor
+from app.database.connection import connection
 
 
 def get_history():
 
-    query = """
-    SELECT
-        id,
-        nitrogen,
-        phosphorus,
-        potassium,
-        temperature,
-        humidity,
-        ph,
-        rainfall,
-        recommended_crop,
-        predicted_at
-    FROM crop_predictions
-    ORDER BY id DESC;
-    """
+    cursor = connection.cursor()
 
-    cursor.execute(query)
+    try:
+        query = """
+        SELECT
+            id,
+            nitrogen,
+            phosphorus,
+            potassium,
+            temperature,
+            humidity,
+            ph,
+            rainfall,
+            recommended_crop,
+            predicted_at
+        FROM crop_predictions
+        ORDER BY id DESC;
+        """
 
-    rows = cursor.fetchall()
+        cursor.execute(query)
+        rows = cursor.fetchall()
 
-    history = []
+        history = []
 
-    for row in rows:
+        for row in rows:
+            history.append({
+                "id": row[0],
+                "nitrogen": row[1],
+                "phosphorus": row[2],
+                "potassium": row[3],
+                "temperature": row[4],
+                "humidity": row[5],
+                "ph": row[6],
+                "rainfall": row[7],
+                "recommended_crop": row[8],
+                "predicted_at": str(row[9])
+            })
 
-        history.append({
+        return history
 
-            "id": row[0],
-            "nitrogen": row[1],
-            "phosphorus": row[2],
-            "potassium": row[3],
-            "temperature": row[4],
-            "humidity": row[5],
-            "ph": row[6],
-            "rainfall": row[7],
-            "recommended_crop": row[8],
-            "predicted_at": str(row[9])
-
-        })
-
-    return history
+    finally:
+        cursor.close()

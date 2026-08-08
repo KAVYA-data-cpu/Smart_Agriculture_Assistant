@@ -1,49 +1,52 @@
-from app.database.connection import cursor
+from app.database.connection import connection
 
 
 def get_fertilizer_history():
 
-    query = """
-    SELECT
-        id,
-        soil_type,
-        crop_type,
-        nitrogen,
-        potassium,
-        phosphorous,
-        moisture,
-        temperature,
-        humidity,
-        recommended_fertilizer,
-        predicted_at
+    # create a fresh cursor for this request instead of using a shared one
+    cursor = connection.cursor()
 
-    FROM fertilizer_predictions
+    try:
+        query = """
+        SELECT
+            id,
+            soil_type,
+            crop_type,
+            nitrogen,
+            potassium,
+            phosphorous,
+            moisture,
+            temperature,
+            humidity,
+            recommended_fertilizer,
+            predicted_at
 
-    ORDER BY id DESC;
-    """
+        FROM fertilizer_predictions
 
-    cursor.execute(query)
+        ORDER BY id DESC;
+        """
 
-    rows = cursor.fetchall()
+        cursor.execute(query)
+        rows = cursor.fetchall()
 
-    history = []
+        history = []
 
-    for row in rows:
+        for row in rows:
+            history.append({
+                "id": row[0],
+                "soil_type": row[1],
+                "crop_type": row[2],
+                "nitrogen": row[3],
+                "potassium": row[4],
+                "phosphorous": row[5],
+                "moisture": row[6],
+                "temperature": row[7],
+                "humidity": row[8],
+                "recommended_fertilizer": row[9],
+                "predicted_at": str(row[10])
+            })
 
-        history.append({
+        return history
 
-            "id": row[0],
-            "soil_type": row[1],
-            "crop_type": row[2],
-            "nitrogen": row[3],
-            "potassium": row[4],
-            "phosphorous": row[5],
-            "moisture": row[6],
-            "temperature": row[7],
-            "humidity": row[8],
-            "recommended_fertilizer": row[9],
-            "predicted_at": str(row[10])
-
-        })
-
-    return history
+    finally:
+        cursor.close()
