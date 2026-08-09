@@ -8,9 +8,28 @@
  * Order of precedence:
  *   1. localStorage key "saa.apiBase" (editable from the navbar settings button)
  *   2. window.API_BASE_URL injected before this script
- *   3. http://localhost:8000 (FastAPI default)
+ *   3. Auto-detected from window.location.origin when served by FastAPI in production
+ *      (i.e. NOT localhost, NOT a file:// URL, NOT a localtunnel URL)
+ *   4. http://localhost:8000 (FastAPI dev default)
  */
-const DEFAULT_API_BASE = 'http://localhost:8000';
+function _detectDefaultBase() {
+  const origin = window.location.origin;
+  const host   = window.location.hostname;
+  // If we're being served FROM the FastAPI server itself (Render / any real host),
+  // the backend IS the same origin — no need to configure anything.
+  if (
+    origin !== 'null' &&                       // not file://
+    host !== 'localhost' &&
+    host !== '127.0.0.1' &&
+    !host.endsWith('.loca.lt') &&              // not a localtunnel dev URL
+    !host.endsWith('.ngrok.io') &&             // not ngrok
+    !host.endsWith('.ngrok-free.app')
+  ) {
+    return origin;   // ← production: same server serves API + frontend
+  }
+  return 'http://localhost:8000';              // ← local dev default
+}
+const DEFAULT_API_BASE = _detectDefaultBase();
 
 const API = (() => {
   const STORE_KEY = 'saa.apiBase';
