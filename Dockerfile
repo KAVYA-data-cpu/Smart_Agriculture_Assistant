@@ -2,9 +2,10 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Minimal system libraries for PyMuPDF + Pillow
+# Minimal system libraries for PyMuPDF, Pillow, and Tesseract OCR
 RUN apt-get update && apt-get install -y \
     libgomp1 \
+    tesseract-ocr \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements-cloud.txt .

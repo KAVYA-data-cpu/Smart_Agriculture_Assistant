@@ -11,8 +11,9 @@ pandas
 joblib
 scikit-learn
 
-# PDF text extraction (lightweight, no OCR models needed)
+# PDF text extraction and OCR (lightweight, no PyTorch needed)
 PyMuPDF
+pytesseract
 
 # Speech / translation
 gTTS
@@ -27,5 +28,5 @@ feedparser
 # Database
 psycopg2-binary
 
-# Image processing (lightweight, no torch/easyocr)
+# Image processing
 Pillow

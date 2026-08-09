@@ -1,21 +1,20 @@
 """
-ocr_service.py — graceful fallback when easyocr is not installed.
+ocr_service.py — lightweight OCR using Tesseract.
 
-In the cloud (lightweight) deployment, easyocr is not available.
-For PDFs, we use PyMuPDF's native text extraction (works without OCR).
-For images, we return a friendly "not available" message.
+We replaced easyocr (which requires PyTorch) with pytesseract
+so that Image OCR and Scanned PDF OCR work in low-RAM cloud deployments.
 """
 import os
 import tempfile
-
-import fitz  # PyMuPDF — always available
+import fitz  # PyMuPDF
+from PIL import Image
 
 try:
-    import easyocr
-    _reader = easyocr.Reader(['en'])
-    _EASYOCR_AVAILABLE = True
+    import pytesseract
+    _TESSERACT_AVAILABLE = True
 except ImportError:
-    _EASYOCR_AVAILABLE = False
+    _TESSERACT_AVAILABLE = False
+
 
 IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.bmp', '.tiff', '.webp'}
 PDF_EXTENSIONS = {'.pdf'}
@@ -23,13 +22,13 @@ SUPPORTED_EXTENSIONS = IMAGE_EXTENSIONS | PDF_EXTENSIONS
 
 
 def _extract_text_from_image(image_path: str) -> str:
-    if not _EASYOCR_AVAILABLE:
-        return (
-            "Image OCR is not available in this cloud deployment. "
-            "Please upload a PDF instead, or run the app locally for image OCR support."
-        )
-    results = _reader.readtext(image_path)
-    return "\n".join(result[1] for result in results)
+    if not _TESSERACT_AVAILABLE:
+        return "OCR engine (pytesseract) is not installed."
+    try:
+        text = pytesseract.image_to_string(Image.open(image_path))
+        return text
+    except Exception as e:
+        return f"Error running OCR: {e}"
 
 
 def _extract_text_from_pdf_native(pdf_path: str) -> str:
@@ -71,14 +70,9 @@ def _extract_text_from_pdf(pdf_path: str) -> str:
     text = _extract_text_from_pdf_native(pdf_path)
     if text.strip():
         return text
-    # Fallback to easyocr for scanned PDFs (only available locally)
-    if _EASYOCR_AVAILABLE:
-        return _extract_text_from_pdf_ocr(pdf_path)
-    return (
-        "This appears to be a scanned PDF (no text layer). "
-        "Image OCR is not available in this cloud deployment. "
-        "Please upload a PDF with a text layer, or run the app locally for scanned PDF support."
-    )
+    
+    # Fallback to Tesseract OCR for scanned PDFs
+    return _extract_text_from_pdf_ocr(pdf_path)
 
 
 def extract_text(file_path: str) -> str:
