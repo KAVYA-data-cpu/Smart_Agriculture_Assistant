@@ -1,0 +1,31 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+python-dotenv
+requests
+
+# Data / ML (crop + fertilizer prediction — scikit-learn only, no torch)
+numpy
+pandas
+joblib
+scikit-learn
+
+# PDF text extraction (lightweight, no OCR models needed)
+PyMuPDF
+
+# Speech / translation
+gTTS
+deep-translator
+groq
+
+# Reports / charts / feeds
+matplotlib
+reportlab
+feedparser
+
+# Database
+psycopg2-binary
+
+# Image processing (lightweight, no torch/easyocr)
+Pillow
