@@ -61,13 +61,20 @@ def _predict_local(image_path: str) -> dict:
 
 def _predict_hf_api(image_path: str, hf_key: str) -> dict:
     """Cloud inference via the HF Inference API (no PyTorch needed)."""
-    with open(image_path, "rb") as f:
-        image_bytes = f.read()
+    import io
+    
+    # Resize image to save bandwidth and prevent timeouts on cloud
+    image = Image.open(image_path).convert("RGB")
+    image.thumbnail((256, 256))
+    img_byte_arr = io.BytesIO()
+    image.save(img_byte_arr, format='JPEG')
+    image_bytes = img_byte_arr.getvalue()
 
     headers = {"Authorization": f"Bearer {hf_key}"}
     try:
         response = requests.post(HF_API_URL, headers=headers, data=image_bytes, timeout=60)
     except requests.exceptions.RequestException as e:
+        print(f"HF API Network Error: {e}")
         return {
             "label": "Network Error",
             "confidence": 0,

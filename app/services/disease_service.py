@@ -24,5 +24,5 @@ def diagnose_leaf_image(image_path):
         "disease": label.replace("___", " - ").replace("_", " "),
         "confidence_percent": result["confidence"],
         "is_healthy": is_healthy,
-        "treatment": "No treatment needed — plant appears healthy." if is_healthy else TREATMENTS.get(label, DEFAULT_TREATMENT)
+        "treatment": result.get("message", "No treatment needed — plant appears healthy." if is_healthy else TREATMENTS.get(label, DEFAULT_TREATMENT)) if result.get("_unavailable") else ("No treatment needed — plant appears healthy." if is_healthy else TREATMENTS.get(label, DEFAULT_TREATMENT))
     }
