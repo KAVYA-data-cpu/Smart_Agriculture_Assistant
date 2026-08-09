@@ -70,7 +70,10 @@ def _predict_hf_api(image_path: str, hf_key: str) -> dict:
     image.save(img_byte_arr, format='JPEG')
     image_bytes = img_byte_arr.getvalue()
 
-    headers = {"Authorization": f"Bearer {hf_key}"}
+    headers = {
+        "Authorization": f"Bearer {hf_key}",
+        "Content-Type": "image/jpeg"
+    }
     try:
         response = requests.post(HF_API_URL, headers=headers, data=image_bytes, timeout=60)
     except requests.exceptions.RequestException as e:
