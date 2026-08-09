@@ -13,7 +13,7 @@ import requests
 from PIL import Image
 
 MODEL_NAME = "linkanjarad/mobilenet_v2_1.0_224-plant-disease-identification"
-HF_API_URL = f"https://api-inference.huggingface.co/models/{MODEL_NAME}"
+HF_API_URL = f"https://router.huggingface.co/hf-inference/models/{MODEL_NAME}"
 HF_API_KEY  = os.getenv("HF_API_KEY", "")
 
 # ────────────────────────────────────────────────
