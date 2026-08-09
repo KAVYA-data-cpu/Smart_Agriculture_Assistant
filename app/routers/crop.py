@@ -12,13 +12,18 @@ router = APIRouter()
 @router.post("/predict")
 def predict(data: CropInput):
 
-    # Predict the crop
+    # Predict the crop (doesn't depend on weather)
     crop = predict_crop(data)
 
-    # Fetch weather data for the city
-    weather = get_weather(data.city)
+    # Fetch weather data for the city - wrapped so a weather
+    # failure doesn't block the prediction from being saved/returned
+    try:
+        weather = get_weather(data.city)
+    except Exception as e:
+        weather = {"error": str(e)}
 
-    # Save prediction into PostgreSQL
+    # Save prediction into PostgreSQL (now always runs,
+    # even if the weather lookup failed)
     save_prediction(data, crop)
 
     # Return response

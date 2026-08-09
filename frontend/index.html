@@ -6,15 +6,15 @@
   <title>Smart Agriculture Assistant — AI Farming Dashboard</title>
   <meta name="description" content="AI-powered farming dashboard for crop and fertilizer recommendation, soil health, plant disease detection, market intelligence and agriculture news." />
   <meta name="keywords" content="smart agriculture, crop recommendation, fertilizer, soil health, plant disease detection, market prices, farming AI" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Smart Agriculture Assistant — AI Farming Dashboard" />
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="Smart Agriculture Assistant — AI Farming Dashboard" />
   <meta property="og:description" content="One dashboard for crop advisory, soil health, disease detection and market intelligence." />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:card"       content="summary_large_image" />
   <link rel="canonical" href="/app/index.html" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/responsive.css" />
 </head>
@@ -26,98 +26,167 @@
     <nav data-shell="sidebar"></nav>
 
     <main class="content" id="main">
+
       <!-- ============================ Hero ============================ -->
       <section class="hero reveal" aria-labelledby="heroTitle">
+        <!-- Particle canvas -->
+        <canvas id="heroCanvas" aria-hidden="true"></canvas>
+        <!-- Floating orbs -->
+        <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+
         <div class="hero__inner">
           <div class="badge-row">
-            <span class="hero-badge">🌱 AI Advisory</span>
-            <span class="hero-badge">📈 Live Market Data</span>
-            <span class="hero-badge">🎙️ Voice &amp; Chat</span>
+            <span class="hero-badge"><span class="mi" style="font-size:14px">eco</span>AI Advisory</span>
+            <span class="hero-badge"><span class="mi" style="font-size:14px">insights</span>Live Market Data</span>
+            <span class="hero-badge"><span class="mi" style="font-size:14px">graphic_eq</span>Voice &amp; Chat</span>
+            <span class="hero-badge"><span class="mi" style="font-size:14px">biotech</span>Disease Detection</span>
           </div>
-          <h1 id="heroTitle">Farm smarter with data you can trust</h1>
+
+          <h1 id="heroTitle">Farm smarter with AI you can trust</h1>
           <p>Crop and fertilizer recommendations, soil analysis, plant disease detection and market
              intelligence — unified in one premium dashboard powered by your FastAPI engine.</p>
-          <div class="row wrap actions">
-            <a class="btn btn--light" href="pages/crop.html"><span class="mi">psychiatry</span>Recommend a crop</a>
-            <a class="btn btn--light" href="pages/market.html"><span class="mi">insights</span>Market dashboard</a>
+
+          <div class="row wrap actions" style="gap:12px;margin-top:22px">
+            <a class="btn btn--light" href="pages/crop.html">
+              <span class="mi" aria-hidden="true">psychiatry</span>Recommend a crop</a>
+            <a class="btn btn--light" href="pages/market.html">
+              <span class="mi" aria-hidden="true">insights</span>Market dashboard</a>
+            <a class="btn btn--light" href="pages/chatbot.html">
+              <span class="mi" aria-hidden="true">forum</span>Ask AgriBot</a>
+          </div>
+
+          <!-- Hero quick stats -->
+          <div class="hero-stats" aria-label="Quick stats">
+            <div class="hero-stat">
+              <span class="hero-stat__val" id="heroStatCrops">22+</span>
+              <span class="hero-stat__lbl">Crops supported</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat__val" id="heroStatAccuracy">94%</span>
+              <span class="hero-stat__lbl">Model accuracy</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat__val" id="heroStatModules">8</span>
+              <span class="hero-stat__lbl">AI modules</span>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- ========================== Statistics ========================= -->
-      <h2 class="mt-2">At a glance</h2>
-      <section class="grid cols-4 mb-2" id="statsGrid" aria-label="Key statistics">
-        <div class="card card--hover reveal stat"><div class="stat__icon"><span class="mi">insights</span></div>
-          <div><div class="stat__value" id="statPredictions">—</div><div class="stat__label">Crop predictions</div></div></div>
-        <div class="card card--hover reveal stat"><div class="stat__icon"><span class="mi">science</span></div>
-          <div><div class="stat__value" id="statFertilizer">—</div><div class="stat__label">Fertilizer advices</div></div></div>
-        <div class="card card--hover reveal stat"><div class="stat__icon"><span class="mi">grass</span></div>
-          <div><div class="stat__value" id="statTopCrop">—</div><div class="stat__label">Most recommended crop</div></div></div>
-        <div class="card card--hover reveal stat"><div class="stat__icon"><span class="mi">schedule</span></div>
-          <div><div class="stat__value" id="statLast" style="font-size:1rem">—</div><div class="stat__label">Last prediction</div></div></div>
+      <div class="section-title mt-2">
+        <h2>At a glance</h2>
+        <a class="btn btn--ghost btn--sm" href="pages/history.html">
+          <span class="mi" aria-hidden="true">history</span>View history</a>
+      </div>
+      <section class="grid cols-4 mb-2 stagger-children" id="statsGrid" aria-label="Key statistics">
+        <div class="card card--hover reveal stat">
+          <div class="stat__icon"><span class="mi" aria-hidden="true">insights</span></div>
+          <div>
+            <div class="stat__value" id="statPredictions">—</div>
+            <div class="stat__label">Crop predictions</div>
+          </div>
+        </div>
+        <div class="card card--hover reveal stat">
+          <div class="stat__icon" style="background:linear-gradient(140deg,color-mix(in oklab,var(--teal) 22%,transparent),color-mix(in oklab,var(--teal) 8%,transparent));color:var(--teal);box-shadow:0 0 0 1px color-mix(in oklab,var(--teal) 25%,transparent),0 4px 16px -4px color-mix(in oklab,var(--teal) 35%,transparent)">
+            <span class="mi" aria-hidden="true">science</span></div>
+          <div>
+            <div class="stat__value" id="statFertilizer">—</div>
+            <div class="stat__label">Fertilizer advices</div>
+          </div>
+        </div>
+        <div class="card card--hover reveal stat">
+          <div class="stat__icon" style="background:linear-gradient(140deg,color-mix(in oklab,var(--gold) 22%,transparent),color-mix(in oklab,var(--gold) 8%,transparent));color:var(--gold);box-shadow:0 0 0 1px color-mix(in oklab,var(--gold) 25%,transparent),0 4px 16px -4px color-mix(in oklab,var(--gold) 35%,transparent)">
+            <span class="mi" aria-hidden="true">grass</span></div>
+          <div>
+            <div class="stat__value" id="statTopCrop">—</div>
+            <div class="stat__label">Most recommended</div>
+          </div>
+        </div>
+        <div class="card card--hover reveal stat">
+          <div class="stat__icon" style="background:linear-gradient(140deg,color-mix(in oklab,var(--violet) 22%,transparent),color-mix(in oklab,var(--violet) 8%,transparent));color:var(--violet);box-shadow:0 0 0 1px color-mix(in oklab,var(--violet) 25%,transparent),0 4px 16px -4px color-mix(in oklab,var(--violet) 35%,transparent)">
+            <span class="mi" aria-hidden="true">schedule</span></div>
+          <div>
+            <div class="stat__value" id="statLast" style="font-size:.95rem;letter-spacing:-.01em">—</div>
+            <div class="stat__label">Last prediction</div>
+          </div>
+        </div>
       </section>
 
       <!-- =========================== Modules =========================== -->
-      <div class="row spread wrap mt-2">
-        <h2 style="margin:0">Modules</h2>
-        <a class="btn btn--ghost btn--sm" href="pages/history.html"><span class="mi">history</span>View history</a>
+      <div class="section-title mt-2">
+        <h2>AI Modules</h2>
+        <a class="btn btn--ghost btn--sm" href="pages/history.html">
+          <span class="mi" aria-hidden="true">open_in_new</span>All records</a>
       </div>
-      <section class="grid auto mt-1" aria-label="Feature modules">
+      <section class="grid auto mt-1 stagger-children" aria-label="Feature modules">
         <a class="card card--hover feature-card reveal" href="pages/crop.html">
-          <span class="ficon"><span class="mi">psychiatry</span></span>
+          <span class="ficon" aria-hidden="true"><span class="mi">psychiatry</span></span>
           <h3>Crop Recommendation</h3>
           <p class="small">Enter soil nutrients and weather to get the best crop for your field.</p>
-          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+          <span class="go">Open <span class="mi">arrow_forward</span></span>
+        </a>
 
         <a class="card card--hover feature-card reveal" href="pages/fertilizer.html">
-          <span class="ficon teal"><span class="mi">science</span></span>
+          <span class="ficon teal" aria-hidden="true"><span class="mi">science</span></span>
           <h3>Fertilizer Recommendation</h3>
           <p class="small">Balanced NPK dosage guidance tailored to soil and crop type.</p>
-          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+          <span class="go">Open <span class="mi">arrow_forward</span></span>
+        </a>
 
         <a class="card card--hover feature-card reveal" href="pages/soil.html">
-          <span class="ficon amber"><span class="mi">terrain</span></span>
+          <span class="ficon amber" aria-hidden="true"><span class="mi">terrain</span></span>
           <h3>Soil Health</h3>
           <p class="small">Upload a lab PDF report and get an instant structured breakdown.</p>
-          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+          <span class="go">Open <span class="mi">arrow_forward</span></span>
+        </a>
 
         <a class="card card--hover feature-card reveal" href="pages/disease.html">
-          <span class="ficon rose"><span class="mi">coronavirus</span></span>
+          <span class="ficon rose" aria-hidden="true"><span class="mi">coronavirus</span></span>
           <h3>Plant Disease Detection</h3>
           <p class="small">Upload a leaf photo for diagnosis, treatment and prevention advice.</p>
-          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+          <span class="go">Open <span class="mi">arrow_forward</span></span>
+        </a>
 
         <a class="card card--hover feature-card reveal" href="pages/market.html">
-          <span class="ficon blue"><span class="mi">insights</span></span>
+          <span class="ficon blue" aria-hidden="true"><span class="mi">insights</span></span>
           <h3>Market Intelligence</h3>
           <p class="small">Prices, nearby mandis, trends, demand and future price forecasts.</p>
-          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+          <span class="go">Open <span class="mi">arrow_forward</span></span>
+        </a>
 
         <a class="card card--hover feature-card reveal" href="pages/news.html">
-          <span class="ficon violet"><span class="mi">newspaper</span></span>
+          <span class="ficon violet" aria-hidden="true"><span class="mi">newspaper</span></span>
           <h3>Agriculture News</h3>
           <p class="small">Curated headlines with category filters and instant search.</p>
-          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+          <span class="go">Open <span class="mi">arrow_forward</span></span>
+        </a>
 
         <a class="card card--hover feature-card reveal" href="pages/chatbot.html">
-          <span class="ficon"><span class="mi">forum</span></span>
+          <span class="ficon" aria-hidden="true"><span class="mi">forum</span></span>
           <h3>AI Chatbot</h3>
           <p class="small">Conversational agronomy help with saved session history.</p>
-          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+          <span class="go">Open <span class="mi">arrow_forward</span></span>
+        </a>
 
         <a class="card card--hover feature-card reveal" href="pages/voice.html">
-          <span class="ficon blue"><span class="mi">graphic_eq</span></span>
+          <span class="ficon teal" aria-hidden="true"><span class="mi">graphic_eq</span></span>
           <h3>Voice Assistant</h3>
           <p class="small">Speak your question, hear the answer — hands-free in the field.</p>
-          <span class="go">Open<span class="mi">arrow_forward</span></span></a>
+          <span class="go">Open <span class="mi">arrow_forward</span></span>
+        </a>
       </section>
 
       <!-- ====================== Recent predictions ===================== -->
-      <div class="row spread wrap mt-2">
-        <h2 style="margin:0">Recent predictions</h2>
-        <a class="btn btn--ghost btn--sm" href="pages/history.html"><span class="mi">open_in_new</span>All records</a>
+      <div class="section-title mt-2">
+        <h2>Recent predictions</h2>
+        <a class="btn btn--ghost btn--sm" href="pages/history.html">
+          <span class="mi" aria-hidden="true">open_in_new</span>All records</a>
       </div>
       <section class="card mt-1 reveal" id="recentPanel" aria-live="polite"></section>
+
     </main>
   </div>
 

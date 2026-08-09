@@ -1,14 +1,14 @@
-from app.database.connection import connection
+from app.database.connection import get_connection
 
 
 def save_prediction(data, crop):
 
+    connection = get_connection()
     cursor = connection.cursor()
 
     try:
         query = """
         INSERT INTO crop_predictions(
-
             nitrogen,
             phosphorus,
             potassium,
@@ -17,9 +17,7 @@ def save_prediction(data, crop):
             ph,
             rainfall,
             recommended_crop
-
         )
-
         VALUES(%s,%s,%s,%s,%s,%s,%s,%s)
         """
 
@@ -41,3 +39,4 @@ def save_prediction(data, crop):
 
     finally:
         cursor.close()
+        connection.close()

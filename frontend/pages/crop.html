@@ -12,7 +12,7 @@
   <link rel="icon" href="/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/responsive.css" />
 </head>
@@ -21,16 +21,22 @@
   <div class="layout">
     <nav data-shell="sidebar"></nav>
     <main class="content" id="main">
+
       <header class="page-head reveal">
-        <span class="eyebrow"><span class="mi" style="font-size:15px">psychiatry</span>Advisory</span>
+        <span class="eyebrow">
+          <span class="mi" style="font-size:14px" aria-hidden="true">psychiatry</span>Advisory
+        </span>
         <h1>Crop Recommendation</h1>
-        <p>Enter your soil test values and location. The model returns the crop best suited to your field.</p>
+        <p>Enter your soil test values and location. The AI returns the crop best suited to your field.</p>
       </header>
 
-      <div class="grid" style="grid-template-columns: minmax(0,1.15fr) minmax(0,1fr)">
-        <!-- ---------------- Form ---------------- -->
-        <section class="card reveal">
-          <h2 class="card__title"><span class="mi">edit_note</span>Field parameters</h2>
+      <div class="grid reveal" style="grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap:22px">
+
+        <!-- Form -->
+        <section class="card">
+          <h2 class="card__title">
+            <span class="mi" aria-hidden="true">edit_note</span>Field parameters
+          </h2>
           <form id="cropForm" novalidate>
             <div class="form-grid">
               <div class="field">
@@ -74,21 +80,26 @@
                 <span class="error-text" data-error-for="city"></span>
               </div>
             </div>
-            <div class="row wrap actions mt-2">
+            <div class="row wrap actions mt-2" style="gap:10px">
               <button class="btn btn--primary" type="submit" id="cropSubmit">
-                <span class="mi">auto_awesome</span>Get recommendation</button>
-              <button class="btn btn--ghost" type="button" id="cropSample"><span class="mi">bolt</span>Fill sample</button>
-              <button class="btn btn--ghost" type="reset"><span class="mi">restart_alt</span>Reset</button>
+                <span class="mi" aria-hidden="true">auto_awesome</span>Get recommendation</button>
+              <button class="btn btn--ghost" type="button" id="cropSample">
+                <span class="mi" aria-hidden="true">bolt</span>Fill sample</button>
+              <button class="btn btn--ghost" type="reset">
+                <span class="mi" aria-hidden="true">restart_alt</span>Reset</button>
             </div>
           </form>
         </section>
 
-        <!-- ---------------- Result ---------------- -->
-        <section class="card reveal" id="cropResult" aria-live="polite">
-          <div class="empty"><span class="mi">insights</span>
-            <p class="mt-1">Your prediction card will appear here.</p></div>
+        <!-- Result -->
+        <section class="card" id="cropResult" aria-live="polite">
+          <div class="empty">
+            <span class="mi" aria-hidden="true">psychiatry</span>
+            <p class="mt-1">Your prediction card will appear here after you submit.</p>
+          </div>
         </section>
       </div>
+
     </main>
   </div>
   <footer data-shell="footer"></footer>

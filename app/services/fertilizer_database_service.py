@@ -1,14 +1,14 @@
-from app.database.connection import connection
+from app.database.connection import get_connection
 
 
 def save_fertilizer_prediction(data, weather, fertilizer):
 
+    connection = get_connection()
     cursor = connection.cursor()
 
     try:
         query = """
         INSERT INTO fertilizer_predictions(
-
             soil_type,
             crop_type,
             nitrogen,
@@ -18,11 +18,8 @@ def save_fertilizer_prediction(data, weather, fertilizer):
             temperature,
             humidity,
             recommended_fertilizer
-
         )
-
         VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)
-
         """
 
         cursor.execute(
@@ -44,3 +41,4 @@ def save_fertilizer_prediction(data, weather, fertilizer):
 
     finally:
         cursor.close()
+        connection.close()

@@ -1,9 +1,9 @@
-from app.database.connection import connection
+from app.database.connection import get_connection
 
 
 def get_fertilizer_history():
 
-    # create a fresh cursor for this request instead of using a shared one
+    connection = get_connection()
     cursor = connection.cursor()
 
     try:
@@ -50,3 +50,4 @@ def get_fertilizer_history():
 
     finally:
         cursor.close()
+        connection.close()

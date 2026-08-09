@@ -1,21 +1,22 @@
 # Python
 __pycache__/
 *.py[cod]
+*.pyo
 
 # Virtual environment
 venv/
+venv_new/
 .venv/
 env/
 
-# Environment variables
+# Environment variables — NEVER commit .env
 .env
 
-# Uploads
+# Uploads & generated files
 uploads/
 app/static/uploads/
 app/static/audio/
-
-# Logs
+market_history/
 *.log
 
 # VS Code
@@ -23,4 +24,7 @@ app/static/audio/
 
 # OS
 .DS_Store
+Thumbs.db
 
+# Old docker file (renamed to Dockerfile)
+Dockerfile.txt

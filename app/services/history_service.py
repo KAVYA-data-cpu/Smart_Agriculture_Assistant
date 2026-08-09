@@ -1,8 +1,9 @@
-from app.database.connection import connection
+from app.database.connection import get_connection
 
 
 def get_history():
 
+    connection = get_connection()
     cursor = connection.cursor()
 
     try:
@@ -45,3 +46,4 @@ def get_history():
 
     finally:
         cursor.close()
+        connection.close()

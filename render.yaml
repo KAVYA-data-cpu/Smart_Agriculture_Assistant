@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: smart-agriculture-assistant
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        sync: false          # you'll paste this in the Render dashboard
+      - key: DATA_GOV_API_KEY
+        sync: false          # you'll paste this in the Render dashboard
+      - key: PORT
+        value: 8000
+    healthCheckPath: /api/status
+    autoDeploy: true         # re-deploys automatically on every git push

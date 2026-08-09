@@ -1,26 +1,31 @@
 fastapi
 uvicorn[standard]
 python-multipart
-
 pydantic
 python-dotenv
 requests
 
-# Data / ML
+# Data / ML (crop + fertilizer prediction)
 numpy
 pandas
 joblib
 scikit-learn
+
+# Torch - CPU-only build (the default pip install pulls a multi-GB
+# CUDA build we never use on a free-tier host; this cuts it to ~250-400MB)
+--extra-index-url https://download.pytorch.org/whl/cpu
 torch
 torchvision
-transformers
 
-# Images / OCR / PDF
+# Disease detection
+transformers
 Pillow
+
+# OCR / PDF
 easyocr
 PyMuPDF
 
-# Speech / translation
+# Speech / translation (lightweight, API-based, no local models)
 gTTS
 deep-translator
 groq
