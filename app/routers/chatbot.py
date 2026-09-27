@@ -6,10 +6,16 @@ from app.services.chatbot_service import ask, get_all_sessions, get_session_hist
 router = APIRouter(prefix="/chatbot", tags=["Chatbot"])
 
 
-@router.post("/ask")
+@router.api_route("/ask", methods=["GET", "POST"])
 async def chat(request: Request):
     try:
-        data = await request.json()
+        if request.method == "POST":
+            try:
+                data = await request.json()
+            except Exception:
+                data = {}
+        else:
+            data = dict(request.query_params)
     except Exception:
         data = {}
 
