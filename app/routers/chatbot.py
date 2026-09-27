@@ -1,5 +1,6 @@
 import uuid
 from fastapi import APIRouter, Request
+from fastapi.responses import JSONResponse
 from app.services.chatbot_service import ask, get_all_sessions, get_session_history
 
 router = APIRouter(prefix="/chatbot", tags=["Chatbot"])
@@ -21,25 +22,25 @@ async def chat(request: Request):
         print(f"Chatbot error: {e}")
         reply = "Hello! I am your AI farming assistant. How can I help you with crop recommendation, fertilizers, or plant diseases today?"
 
-    return {
+    return JSONResponse(content={
         "reply": str(reply),
         "response": str(reply),
         "answer": str(reply),
-        "session_id": session_id
-    }
+        "session_id": str(session_id)
+    })
 
 
 @router.get("/sessions")
 def list_sessions():
     try:
-        return get_all_sessions()
+        return JSONResponse(content=get_all_sessions())
     except Exception:
-        return []
+        return JSONResponse(content=[])
 
 
 @router.get("/sessions/{session_id}")
 def session_history(session_id: str):
     try:
-        return {"session_id": session_id, "messages": get_session_history(session_id)}
+        return JSONResponse(content={"session_id": str(session_id), "messages": get_session_history(session_id)})
     except Exception:
-        return {"session_id": session_id, "messages": []}
+        return JSONResponse(content={"session_id": str(session_id), "messages": []})
