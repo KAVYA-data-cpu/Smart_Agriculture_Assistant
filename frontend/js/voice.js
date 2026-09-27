@@ -9,7 +9,42 @@
 
   function setStatus(text) { $('#micStatus').textContent = text; }
 
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let webSpeechRec = null;
+
   async function start() {
+    if (SpeechRecognition) {
+      try {
+        webSpeechRec = new SpeechRecognition();
+        webSpeechRec.continuous = false;
+        webSpeechRec.interimResults = false;
+        webSpeechRec.lang = 'en-US';
+
+        webSpeechRec.onresult = (e) => {
+          const transcriptText = e.results[0][0].transcript;
+          renderTranscript(transcriptText);
+        };
+
+        webSpeechRec.onerror = () => {
+          startFallbackRecorder();
+        };
+
+        webSpeechRec.onend = () => {
+          stopUI();
+        };
+
+        webSpeechRec.start();
+        recording = true;
+        startUI();
+        return;
+      } catch {
+        // Fallback to MediaRecorder
+      }
+    }
+    await startFallbackRecorder();
+  }
+
+  async function startFallbackRecorder() {
     if (!navigator.mediaDevices?.getUserMedia) {
       Toast.error('Your browser does not support microphone recording.');
       return;
@@ -25,24 +60,52 @@
       };
       recorder.start();
       recording = true;
-      $('#micBtn').classList.add('is-recording');
-      $('#micBtn').setAttribute('aria-pressed', 'true');
-      $('#micBtn').querySelector('.mi').textContent = 'stop';
-      $('#wave').classList.remove('hidden');
-      setStatus('Listening… tap again to stop.');
+      startUI();
     } catch {
       Toast.error('Microphone permission was denied.');
     }
   }
 
-  function stop() {
-    if (recorder && recording) recorder.stop();
+  function startUI() {
+    $('#micBtn').classList.add('is-recording');
+    $('#micBtn').setAttribute('aria-pressed', 'true');
+    $('#micBtn').querySelector('.mi').textContent = 'stop';
+    $('#wave').classList.remove('hidden');
+    setStatus('Listening… speak now, or tap stop.');
+  }
+
+  function stopUI() {
     recording = false;
     $('#micBtn').classList.remove('is-recording');
     $('#micBtn').setAttribute('aria-pressed', 'false');
     $('#micBtn').querySelector('.mi').textContent = 'mic';
     $('#wave').classList.add('hidden');
-    setStatus('Processing your recording…');
+    setStatus('Processing audio…');
+  }
+
+  function stop() {
+    if (webSpeechRec && recording) {
+      try { webSpeechRec.stop(); } catch {}
+    }
+    if (recorder && recording) {
+      try { recorder.stop(); } catch {}
+    }
+    stopUI();
+  }
+
+  function renderTranscript(text) {
+    const panel = $('#transcriptPanel');
+    UI.ready(panel);
+    if (!text) return UI.empty(panel, 'No speech detected. Try speaking closer to microphone.', 'mic_off');
+    panel.innerHTML = `<div class="card card--glass" style="text-align:left">
+      <h3 class="card__title"><span class="mi">record_voice_over</span>Transcript</h3>
+      <p style="margin:0;font-size:1rem;font-weight:600">${esc(String(text))}</p>
+      <div class="row wrap actions mt-1">
+        <button class="btn btn--primary btn--sm" id="useTranscript"><span class="mi">volume_up</span>Read it back</button>
+      </div></div>`;
+    $('#useTranscript').onclick = () => { $('#speakText').value = text; $('#speakForm').requestSubmit(); };
+    setStatus('Transcription complete. Tap the microphone to record again.');
+    Toast.success('Voice transcribed successfully.');
   }
 
   async function transcribe(blob) {
@@ -51,17 +114,7 @@
     try {
       const res = await API.transcribe(blob, 'recording.webm');
       const text = typeof res === 'string' ? res : pick(res, ['text', 'transcript', 'transcription', 'result'], '');
-      UI.ready(panel);
-      if (!text) return UI.empty(panel, 'No speech was detected. Try again closer to the microphone.', 'mic_off');
-      panel.innerHTML = `<div class="card card--glass" style="text-align:left">
-        <h3 class="card__title"><span class="mi">record_voice_over</span>Transcript</h3>
-        <p style="margin:0">${esc(String(text))}</p>
-        <div class="row wrap actions mt-1">
-          <button class="btn btn--ghost btn--sm" id="useTranscript"><span class="mi">volume_up</span>Read it back</button>
-        </div></div>`;
-      $('#useTranscript').onclick = () => { $('#speakText').value = text; $('#speakForm').requestSubmit(); };
-      setStatus('Transcription complete. Tap the microphone to record again.');
-      Toast.success('Voice transcribed successfully.');
+      renderTranscript(text);
     } catch (err) {
       UI.error(panel, err.message);
       setStatus('Tap the microphone to try again.');
