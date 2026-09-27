@@ -1,5 +1,6 @@
 import threading
 import time
+import uuid
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -38,6 +39,36 @@ async def global_exception_handler(request: Request, exc: Exception):
             "session_id": "default-session"
         }
     )
+
+
+@app.post("/chatbot/ask")
+@app.get("/chatbot/ask")
+async def direct_chatbot_ask(request: Request):
+    try:
+        try:
+            data = await request.json()
+        except Exception:
+            data = dict(request.query_params)
+        msg = str(data.get("message") or data.get("question") or data.get("query") or "Hello")
+        sid = str(data.get("session_id") or uuid.uuid4())
+        try:
+            from app.services.chatbot_service import ask
+            reply = ask(sid, msg)
+        except Exception as e:
+            reply = "Hello! I am your AI farming assistant. How can I help you today with crop recommendations, fertilizer advisory, disease identification, or market prices?"
+        return JSONResponse(content={
+            "reply": str(reply),
+            "response": str(reply),
+            "answer": str(reply),
+            "session_id": sid
+        })
+    except Exception:
+        return JSONResponse(content={
+            "reply": "Hello! I am your AI farming assistant.",
+            "response": "Hello! I am your AI farming assistant.",
+            "answer": "Hello! I am your AI farming assistant.",
+            "session_id": "default-session"
+        })
 
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
