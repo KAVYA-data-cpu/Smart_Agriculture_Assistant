@@ -37,9 +37,12 @@ const asList = (data, keys = []) => {
   return [];
 };
 
-/* ------------------------------------------------------------ navigation */
 const NAV = [
-  { group: 'Overview', items: [{ href: 'index.html', icon: 'dashboard', label: 'Home Dashboard' }] },
+  { group: 'Overview', items: [
+      { href: 'index.html', icon: 'dashboard', label: 'Home Dashboard' },
+      { href: 'demo.html',  icon: 'smart_display', label: '🎬 3-Min Demo Video' }
+    ]
+  },
   {
     group: 'Advisory',
     items: [

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Agriculture Assistant — 3-Minute Hackathon Demo Video</title>
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+</head>
+<body>
+
+  <div class="demo-viewport-container">
+    
+    <!-- Top Navigation Bar -->
+    <header class="demo-top-bar">
+      <div class="demo-branding">
+        <div class="demo-logo-badge">
+          <span class="mi" style="font-size:22px">psychiatry</span>
+        </div>
+        <div class="demo-title-group">
+          <h1>Smart Agriculture Assistant <span class="badge-live-tag">Hackathon Demo</span></h1>
+          <p>Official 3-Minute Product Presentation &amp; Technical Demonstration</p>
+        </div>
+      </div>
+      <div class="top-bar-actions">
+        <a href="index.html" class="btn-pill" title="Go to live dashboard">
+          <span class="mi" style="font-size:16px">dashboard</span> Live Dashboard
+        </a>
+        <a href="/docs" target="_blank" class="btn-pill" title="FastAPI Interactive Docs">
+          <span class="mi" style="font-size:16px">api</span> Swagger Docs
+        </a>
+      </div>
+    </header>
+
+    <!-- 16:9 Master Cinema Stage -->
+    <main class="demo-screen-stage" id="demoScreenStage">
+      
+      <!-- Slide 0: Cinematic 3D Agriculture Opening (0:00 - 0:10) -->
+      <section class="demo-slide active" id="slide_0">
+        <img src="images/demo_intro_hero.jpg" class="slide-bg-media" alt="Indian Farmer in field with smartphone AI overlay" />
+        <div class="slide-gradient-overlay"></div>
+        <div class="slide-content-wrap">
+          <div class="intro-hero-content">
+            <div class="hero-pill-badge">
+              <span class="mi" style="font-size:16px">eco</span> AI-Powered Decision Support for Farmers
+            </div>
+            <h1 class="hero-main-title">SMART AGRICULTURE ASSISTANT</h1>
+            <p class="hero-sub-title">From Soil Testing to Mandi Selling — An End-to-End Precision Agriculture Platform Powered by Machine Learning, FastAPI &amp; PostgreSQL</p>
+            <div class="hero-tech-chips">
+              <span class="tech-chip">⚡ FastAPI Asynchronous Engine</span>
+              <span class="tech-chip">🤖 Scikit-Learn ML Models</span>
+              <span class="tech-chip">👁️ PyTorch MobileNetV2 Vision</span>
+              <span class="tech-chip">📄 EasyOCR Document AI</span>
+              <span class="tech-chip">🐘 PostgreSQL Cloud DB</span>
+              <span class="tech-chip">📊 Live Mandi Market Analytics</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 1: The Problem & Lifecycle Flow (0:10 - 0:20) -->
+      <section class="demo-slide" id="slide_1">
+        <img src="images/demo_problem_journey.jpg" class="slide-bg-media" alt="Agricultural lifecycle flow diagram" />
+        <div class="slide-gradient-overlay"></div>
+        <div class="slide-content-wrap">
+          <div class="feature-slide-grid">
+            <div class="feature-info-col">
+              <div class="feature-step-tag">
+                <span class="mi">alt_route</span> The Agricultural Challenge
+              </div>
+              <h2 class="feature-heading">Unifying Fragmented Farming Decisions</h2>
+              <p class="feature-desc">Indian farmers navigate disconnected silos — soil labs, seed vendors, chemical dealers, disease outbreaks, and volatile mandi markets. Smart Agriculture Assistant bridges every stage into one intelligent workflow.</p>
+              <div class="feature-specs-list">
+                <div class="spec-item"><span class="mi">check_circle</span> <strong>Soil Health:</strong> Automated lab report parsing via OCR</div>
+                <div class="spec-item"><span class="mi">check_circle</span> <strong>Crop Selection:</strong> ML-based suitability prediction</div>
+                <div class="spec-item"><span class="mi">check_circle</span> <strong>Fertilizer Plan:</strong> Precision NPK replenishment</div>
+                <div class="spec-item"><span class="mi">check_circle</span> <strong>Disease Defense:</strong> Computer vision leaf diagnosis</div>
+                <div class="spec-item"><span class="mi">check_circle</span> <strong>Market Selling:</strong> Mandi price forecasting &amp; demand</div>
+              </div>
+            </div>
+            <div class="live-mockup-card">
+              <div class="mockup-header">
+                <span class="mockup-title"><span class="mi">sync_alt</span> Continuous Decision Engine</span>
+                <span class="mockup-endpoint-tag">End-to-End Pipeline</span>
+              </div>
+              <div class="mockup-grid-2">
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Input Data Source</div>
+                  <div class="mockup-data-val">Soil + Leaf + Mandis</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Processing Model</div>
+                  <div class="mockup-data-val">Supervised ML + DL</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Persistence Layer</div>
+                  <div class="mockup-data-val">PostgreSQL Neon DB</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Advisory Output</div>
+                  <div class="mockup-data-val">Actionable Farmer Plan</div>
+                </div>
+              </div>
+              <div class="mockup-result-box">
+                <div>
+                  <div class="mockup-data-label">Unified System Status</div>
+                  <div class="result-badge-big">Connected &amp; Live</div>
+                </div>
+                <span class="mi" style="font-size:36px;color:#10b981">hub</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 2: Soil Health Report OCR (0:20 - 0:42) -->
+      <section class="demo-slide" id="slide_2">
+        <div class="slide-gradient-overlay" style="background: radial-gradient(circle at 80% 20%, rgba(16,185,129,0.15) 0%, #060b0e 85%);"></div>
+        <div class="slide-content-wrap">
+          <div class="feature-slide-grid">
+            <div class="feature-info-col">
+              <div class="feature-step-tag">
+                <span class="mi">terrain</span> Step 1 · Soil Analysis
+              </div>
+              <h2 class="feature-heading">Soil Test Report OCR &amp; Extraction</h2>
+              <p class="feature-desc">Farmers upload physical lab reports (PDF or images). Our OCR pipeline digitizes the document, extracting key chemical indicators into structured parameters instantly.</p>
+              <div class="feature-specs-list">
+                <div class="spec-item"><span class="mi">document_scanner</span> <strong>Dual OCR Engine:</strong> EasyOCR &amp; PyMuPDF parsing</div>
+                <div class="spec-item"><span class="mi">speed</span> <strong>Zero Manual Entry:</strong> Auto-populates advisory modules</div>
+                <div class="spec-item"><span class="mi">verified</span> <strong>Extracted Attributes:</strong> N, P, K, pH, Moisture, Soil Type</div>
+              </div>
+            </div>
+            <div class="live-mockup-card">
+              <div class="mockup-header">
+                <span class="mockup-title"><span class="mi">receipt_long</span> OCR Extraction Output</span>
+                <span class="mockup-endpoint-tag">POST /soil/upload</span>
+              </div>
+              <div class="mockup-grid-2">
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Nitrogen (N)</div>
+                  <div class="mockup-data-val">78 kg/ha</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Phosphorus (P)</div>
+                  <div class="mockup-data-val">42 kg/ha</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Potassium (K)</div>
+                  <div class="mockup-data-val">55 kg/ha</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Soil pH</div>
+                  <div class="mockup-data-val">6.5 (Optimal)</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Soil Moisture</div>
+                  <div class="mockup-data-val">32 %</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Soil / Location</div>
+                  <div class="mockup-data-val">Loamy · Hyderabad</div>
+                </div>
+              </div>
+              <div class="mockup-result-box">
+                <div>
+                  <div class="mockup-data-label">Extraction Status</div>
+                  <div class="result-badge-big">100% Structured Data</div>
+                </div>
+                <span class="mi" style="font-size:36px;color:#10b981">task_alt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: Crop Recommendation ML (0:42 - 1:05) -->
+      <section class="demo-slide" id="slide_3">
+        <div class="slide-gradient-overlay" style="background: radial-gradient(circle at 75% 25%, rgba(56,189,248,0.15) 0%, #060b0e 85%);"></div>
+        <div class="slide-content-wrap">
+          <div class="feature-slide-grid">
+            <div class="feature-info-col">
+              <div class="feature-step-tag">
+                <span class="mi">psychiatry</span> Step 2 · Crop Advisory
+              </div>
+              <h2 class="feature-heading">Machine Learning Crop Recommendation</h2>
+              <p class="feature-desc">Trained on multi-variate agricultural datasets, our ML model evaluates soil chemistry, regional temperature, humidity, pH, and rainfall to determine the optimal crop for maximum yield.</p>
+              <div class="feature-specs-list">
+                <div class="spec-item"><span class="mi">model_training</span> <strong>ML Classifier:</strong> Random Forest trained on 22+ crop classes</div>
+                <div class="spec-item"><span class="mi">cloud</span> <strong>Live Weather:</strong> Real-time OpenWeatherMap API integration</div>
+                <div class="spec-item"><span class="mi">database</span> <strong>Audit Trail:</strong> History auto-saved to PostgreSQL</div>
+              </div>
+            </div>
+            <div class="live-mockup-card">
+              <div class="mockup-header">
+                <span class="mockup-title"><span class="mi">grass</span> Crop Predictor</span>
+                <span class="mockup-endpoint-tag">POST /predict</span>
+              </div>
+              <div class="mockup-grid-2">
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Input Nutrients</div>
+                  <div class="mockup-data-val">N:90 · P:42 · K:43</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Agro-Climate</div>
+                  <div class="mockup-data-val">24.5°C · 82% Humidity</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Soil pH &amp; Rain</div>
+                  <div class="mockup-data-val">pH 6.5 · 202mm Rain</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Live City Weather</div>
+                  <div class="mockup-data-val">Pune (25.0°C, Clouds)</div>
+                </div>
+              </div>
+              <div class="mockup-result-box">
+                <div>
+                  <div class="mockup-data-label">Recommended Crop</div>
+                  <div class="result-badge-big">🌾 Rice (Paddy)</div>
+                </div>
+                <span class="mi" style="font-size:36px;color:#10b981">auto_awesome</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Fertilizer Recommendation (1:05 - 1:26) -->
+      <section class="demo-slide" id="slide_4">
+        <div class="slide-gradient-overlay" style="background: radial-gradient(circle at 80% 20%, rgba(251,191,36,0.12) 0%, #060b0e 85%);"></div>
+        <div class="slide-content-wrap">
+          <div class="feature-slide-grid">
+            <div class="feature-info-col">
+              <div class="feature-step-tag">
+                <span class="mi">science</span> Step 3 · Crop Nutrition
+              </div>
+              <h2 class="feature-heading">Precision Fertilizer Recommendation</h2>
+              <p class="feature-desc">Prevents over-fertilization and nutrient imbalance. Our model takes soil type, target crop, moisture level, and existing NPK levels to prescribe the exact fertilizer formulation.</p>
+              <div class="feature-specs-list">
+                <div class="spec-item"><span class="mi">tune</span> <strong>Targeted Nutrition:</strong> Balances Nitrogen, Phosphorus, Potassium</div>
+                <div class="spec-item"><span class="mi">device_thermostat</span> <strong>Climate-Aware:</strong> Incorporates live temperature &amp; humidity</div>
+                <div class="spec-item"><span class="mi">savings</span> <strong>Economic Impact:</strong> Lowers input costs &amp; boosts soil health</div>
+              </div>
+            </div>
+            <div class="live-mockup-card">
+              <div class="mockup-header">
+                <span class="mockup-title"><span class="mi">medication_liquid</span> Fertilizer Engine</span>
+                <span class="mockup-endpoint-tag">POST /fertilizer/predict</span>
+              </div>
+              <div class="mockup-grid-2">
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Soil &amp; Crop Type</div>
+                  <div class="mockup-data-val">Sandy Soil · Maize Crop</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Soil Moisture</div>
+                  <div class="mockup-data-val">38 %</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Nutrient Levels</div>
+                  <div class="mockup-data-val">N:37 · P:0 · K:0</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Live Weather</div>
+                  <div class="mockup-data-val">25.0°C · 55% Humidity</div>
+                </div>
+              </div>
+              <div class="mockup-result-box">
+                <div>
+                  <div class="mockup-data-label">Recommended Fertilizer</div>
+                  <div class="result-badge-big">🧪 Urea (46-0-0)</div>
+                </div>
+                <span class="mi" style="font-size:36px;color:#fbbf24">eco</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Leaf Disease Detection (1:26 - 1:48) -->
+      <section class="demo-slide" id="slide_5">
+        <div class="slide-gradient-overlay" style="background: radial-gradient(circle at 75% 25%, rgba(248,113,113,0.15) 0%, #060b0e 85%);"></div>
+        <div class="slide-content-wrap">
+          <div class="feature-slide-grid">
+            <div class="feature-info-col">
+              <div class="feature-step-tag">
+                <span class="mi">coronavirus</span> Step 4 · Plant Pathology
+              </div>
+              <h2 class="feature-heading">AI Leaf Disease Detection &amp; Treatment</h2>
+              <p class="feature-desc">Farmers capture a smartphone photograph of any symptomatic leaf. The PyTorch MobileNetV2 vision model identifies the exact disease and prescribes immediate treatment to safeguard crops.</p>
+              <div class="feature-specs-list">
+                <div class="spec-item"><span class="mi">biotech</span> <strong>Deep Vision Architecture:</strong> MobileNetV2 Deep CNN</div>
+                <div class="spec-item"><span class="mi">health_and_safety</span> <strong>Clear Health Status:</strong> Healthy vs Pathogen Infected</div>
+                <div class="spec-item"><span class="mi">healing</span> <strong>Actionable Treatment:</strong> Specific fungicide and cultural remedies</div>
+              </div>
+            </div>
+            <div class="live-mockup-card">
+              <div class="mockup-header">
+                <span class="mockup-title"><span class="mi">center_focus_strong</span> Leaf Vision Diagnosis</span>
+                <span class="mockup-endpoint-tag">POST /disease/detect</span>
+              </div>
+              <div class="mockup-grid-2">
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Detected Pathogen</div>
+                  <div class="mockup-data-val" style="color:#f87171">Tomato Early Blight</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Model Confidence</div>
+                  <div class="mockup-data-val">31.31 % Top Match</div>
+                </div>
+                <div class="mockup-data-item" style="grid-column: span 2">
+                  <div class="mockup-data-label">Recommended Treatment</div>
+                  <div class="mockup-data-val" style="font-size:0.85rem;font-weight:500;color:#cbd5e1">
+                    Remove infected leaves; apply copper-based or chlorothalonil fungicide; avoid overhead watering.
+                  </div>
+                </div>
+              </div>
+              <div class="mockup-result-box" style="background:linear-gradient(135deg, rgba(239,68,68,0.18), rgba(185,28,28,0.08));border-color:#ef4444">
+                <div>
+                  <div class="mockup-data-label">Status</div>
+                  <div class="result-badge-big" style="color:#f87171">⚠️ Pathogen Detected</div>
+                </div>
+                <span class="mi" style="font-size:36px;color:#f87171">medical_services</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Mandi Market Intelligence (1:48 - 2:12) -->
+      <section class="demo-slide" id="slide_6">
+        <div class="slide-gradient-overlay" style="background: radial-gradient(circle at 80% 20%, rgba(56,189,248,0.15) 0%, #060b0e 85%);"></div>
+        <div class="slide-content-wrap">
+          <div class="feature-slide-grid">
+            <div class="feature-info-col">
+              <div class="feature-step-tag">
+                <span class="mi">insights</span> Step 5 · Mandi Intelligence
+              </div>
+              <h2 class="feature-heading">Real-Time Mandi Analytics &amp; Price Prediction</h2>
+              <p class="feature-desc">Direct integration with Data.gov.in Mandi API covering 8,444+ daily commodity transactions. Provides price comparisons across nearby mandis, 7-day trend analysis, demand signals, and buy/sell forecasts.</p>
+              <div class="feature-specs-list">
+                <div class="spec-item"><span class="mi">storefront</span> <strong>Live Mandi Feed:</strong> 8,444+ records across 22 states</div>
+                <div class="spec-item"><span class="mi">show_chart</span> <strong>Price Trend &amp; Demand:</strong> Historical regression &amp; volume index</div>
+                <div class="spec-item"><span class="mi">paid</span> <strong>Buy/Sell Recommendation:</strong> Favorable selling window signals</div>
+              </div>
+            </div>
+            <div class="live-mockup-card">
+              <div class="mockup-header">
+                <span class="mockup-title"><span class="mi">currency_rupee</span> Mandi Intelligence Engine</span>
+                <span class="mockup-endpoint-tag">POST /market/price &amp; /market/predict</span>
+              </div>
+              <div class="mockup-grid-2">
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Commodity &amp; Mandi</div>
+                  <div class="mockup-data-val">Wheat · Pune Mandi</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Current Modal Price</div>
+                  <div class="mockup-data-val">₹ 2,450 / Quintal</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Price Trend Direction</div>
+                  <div class="mockup-data-val" style="color:#34d399">↗ Upward (+4.2%)</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Market Demand Index</div>
+                  <div class="mockup-data-val">High (Rising Trading Vol.)</div>
+                </div>
+              </div>
+              <div class="mockup-result-box">
+                <div>
+                  <div class="mockup-data-label">AI Decision Signal</div>
+                  <div class="result-badge-big">📈 Strong Sell Signal</div>
+                </div>
+                <span class="mi" style="font-size:36px;color:#10b981">trending_up</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Agriculture News & Policy (2:12 - 2:30) -->
+      <section class="demo-slide" id="slide_7">
+        <div class="slide-gradient-overlay" style="background: radial-gradient(circle at 80% 20%, rgba(167,139,250,0.15) 0%, #060b0e 85%);"></div>
+        <div class="slide-content-wrap">
+          <div class="feature-slide-grid">
+            <div class="feature-info-col">
+              <div class="feature-step-tag">
+                <span class="mi">newspaper</span> Knowledge Stream
+              </div>
+              <h2 class="feature-heading">Live Agriculture News &amp; Govt Schemes</h2>
+              <p class="feature-desc">Real-time aggregation of official government agricultural policies, Minimum Support Price (MSP) updates, welfare schemes, and market export opportunities.</p>
+              <div class="feature-specs-list">
+                <div class="spec-item"><span class="mi">feed</span> <strong>Google News RSS Pipeline:</strong> Categorized auto-refresh</div>
+                <div class="spec-item"><span class="mi">gavel</span> <strong>Policy Tracking:</strong> MSP revisions and PM-KISAN subsidies</div>
+                <div class="spec-item"><span class="mi">travel_explore</span> <strong>Export Opportunities:</strong> Global and domestic crop trade</div>
+              </div>
+            </div>
+            <div class="live-mockup-card">
+              <div class="mockup-header">
+                <span class="mockup-title"><span class="mi">dynamic_feed</span> Live Agricultural Headlines</span>
+                <span class="mockup-endpoint-tag">GET /news/latest</span>
+              </div>
+              <div class="mockup-specs-list" style="gap:10px">
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">MSP &amp; Welfare Funds</div>
+                  <div class="mockup-data-val" style="font-size:0.85rem">Union Minister emphasizes timely release of Agriculture Welfare Funds across states</div>
+                </div>
+                <div class="mockup-data-item">
+                  <div class="mockup-data-label">Market Reforms</div>
+                  <div class="mockup-data-val" style="font-size:0.85rem">Digital Mandi integration expands direct farmer-to-buyer sales across 22 states</div>
+                </div>
+              </div>
+              <div class="mockup-result-box">
+                <div>
+                  <div class="mockup-data-label">Coverage Status</div>
+                  <div class="result-badge-big">Live &amp; Verified</div>
+                </div>
+                <span class="mi" style="font-size:36px;color:#a78bfa">rss_feed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Technical Architecture (2:30 - 2:45) -->
+      <section class="demo-slide" id="slide_8">
+        <img src="images/demo_tech_architecture.jpg" class="slide-bg-media" alt="System Technical Architecture Diagram" />
+        <div class="slide-gradient-overlay" style="background: linear-gradient(180deg, rgba(3,7,9,0.3) 0%, rgba(3,7,9,0.85) 100%);"></div>
+        <div class="slide-content-wrap">
+          <div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%;gap:16px">
+            <div class="hero-pill-badge" style="align-self:flex-start">
+              <span class="mi" style="font-size:16px">developer_board</span> Production Technical Architecture
+            </div>
+            <h2 class="hero-main-title" style="font-size:2.4rem">Robust, Scalable &amp; Cloud-Ready</h2>
+            <div class="hero-tech-chips" style="justify-content:flex-start">
+              <span class="tech-chip">🌐 HTML5 / CSS3 / Vanilla JS</span>
+              <span class="tech-chip">⚡ FastAPI (ASGI / AsyncIO)</span>
+              <span class="tech-chip">🤖 Scikit-Learn &amp; PyTorch MobileNetV2</span>
+              <span class="tech-chip">📄 EasyOCR &amp; PyMuPDF</span>
+              <span class="tech-chip">🐘 PostgreSQL Cloud (Neon DB)</span>
+              <span class="tech-chip">☁️ OpenWeatherMap &amp; Data.gov.in REST</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 9: Cinematic Closing (2:45 - 3:00) -->
+      <section class="demo-slide" id="slide_9">
+        <img src="images/demo_closing_outro.jpg" class="slide-bg-media" alt="Lush agricultural farmland with smart IoT sensors" />
+        <div class="slide-gradient-overlay"></div>
+        <div class="slide-content-wrap">
+          <div class="intro-hero-content">
+            <div class="hero-pill-badge">
+              <span class="mi" style="font-size:16px">verified</span> Hackathon Demo Summary
+            </div>
+            <h1 class="hero-main-title">FROM SOIL TO MARKET</h1>
+            <p class="hero-sub-title">One intelligent platform empowering Indian farmers with data-driven precision, higher yields, and maximum profitability.</p>
+            <div class="hero-pill-badge" style="background:linear-gradient(135deg, #10b981, #059669);color:#fff;border:none;box-shadow:0 0 30px rgba(16,185,129,0.5)">
+              <span class="mi" style="font-size:18px">rocket_launch</span> Smart Agriculture Assistant · Ready for Production
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Subtitle & Narration Bar -->
+      <div class="live-caption-bar">
+        <div class="caption-voice-icon">
+          <span class="mi" style="font-size:20px">volume_up</span>
+        </div>
+        <div class="caption-text-content" id="captionText">
+          <span class="caption-active-word">[01. Introduction]</span> Welcome to Smart Agriculture Assistant — an enterprise-grade AI decision support platform built with Machine Learning, FastAPI, and PostgreSQL to empower Indian farmers.
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Master Demo Player Controls -->
+    <div class="demo-controls-bar">
+      
+      <!-- Progress Track & Chapter Markers -->
+      <div class="scrubber-track-wrap" id="scrubberTrack" title="Click to seek anywhere in the 3-minute demo">
+        <div class="scrubber-progress-fill" id="scrubberProgressFill"></div>
+        <div class="chapter-ticks-container" id="chapterTicksContainer"></div>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="controls-row">
+        <div class="left-ctrls">
+          <button class="ctrl-btn ctrl-btn-play" id="playBtn" title="Play / Pause Demo (Spacebar)">
+            <span class="mi" id="playIcon" style="font-size:26px">play_arrow</span>
+          </button>
+          <button class="ctrl-btn" id="prevBtn" title="Previous Chapter">
+            <span class="mi">skip_previous</span>
+          </button>
+          <button class="ctrl-btn" id="nextBtn" title="Next Chapter">
+            <span class="mi">skip_next</span>
+          </button>
+          <div class="time-display" id="timeDisplay">00:00 / 03:00</div>
+        </div>
+
+        <div class="center-ctrls">
+          <span class="chapter-name-display" id="chapterNameDisplay">01. Introduction — AI-Powered Decision Support</span>
+        </div>
+
+        <div class="right-ctrls">
+          <button class="btn-pill" id="speedBtn" title="Change Playback Speed">1.0x</button>
+          <button class="ctrl-btn" id="voiceToggleBtn" title="Toggle AI Voiceover Narration" style="color:var(--primary)">
+            <span class="mi">record_voice_over</span>
+          </button>
+          <button class="ctrl-btn" onclick="document.getElementById('demoScreenStage').requestFullscreen()" title="Fullscreen">
+            <span class="mi">fullscreen</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chapter Navigation Quick-Pills -->
+      <div class="chapter-nav-row" id="chapterNavContainer"></div>
+
+    </div>
+
+  </div>
+
+  <script src="js/demo_player.js"></script>
+</body>
+</html>

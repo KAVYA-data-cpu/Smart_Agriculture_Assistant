@@ -15,6 +15,14 @@ try:
 except ImportError:
     _TESSERACT_AVAILABLE = False
 
+try:
+    import easyocr
+    _EASYOCR_AVAILABLE = True
+    _easyocr_reader = None
+except ImportError:
+    _EASYOCR_AVAILABLE = False
+    _easyocr_reader = None
+
 
 IMAGE_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.bmp', '.tiff', '.webp'}
 PDF_EXTENSIONS = {'.pdf'}
@@ -22,13 +30,23 @@ SUPPORTED_EXTENSIONS = IMAGE_EXTENSIONS | PDF_EXTENSIONS
 
 
 def _extract_text_from_image(image_path: str) -> str:
-    if not _TESSERACT_AVAILABLE:
-        return "OCR engine (pytesseract) is not installed."
-    try:
-        text = pytesseract.image_to_string(Image.open(image_path))
-        return text
-    except Exception as e:
-        return f"Error running OCR: {e}"
+    global _easyocr_reader
+    if _TESSERACT_AVAILABLE:
+        try:
+            return pytesseract.image_to_string(Image.open(image_path))
+        except Exception as e:
+            pass
+
+    if _EASYOCR_AVAILABLE:
+        try:
+            if _easyocr_reader is None:
+                _easyocr_reader = easyocr.Reader(['en'], gpu=False)
+            results = _easyocr_reader.readtext(image_path, detail=0)
+            return "\n".join(results)
+        except Exception as e:
+            return f"Error running EasyOCR: {e}"
+
+    return "No OCR engine (pytesseract or easyocr) is available."
 
 
 def _extract_text_from_pdf_native(pdf_path: str) -> str:

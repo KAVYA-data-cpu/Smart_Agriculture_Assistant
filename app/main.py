@@ -69,5 +69,4 @@ def api_status():
 
 @app.on_event("startup")
 def startup_event():
-    refresh_market_data()
     start_background_refresh()
