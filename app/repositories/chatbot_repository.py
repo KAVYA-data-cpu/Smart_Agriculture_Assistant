@@ -19,65 +19,76 @@ def _get_client():
 
 
 def _fallback_agri_response(user_query: str) -> str:
-    query = str(user_query or "").lower()
+    query = str(user_query or "").lower().strip()
 
-    if re.search(r"\b(hello|hi|hey|greetings|namaste)\b", query):
+    if re.search(r"\b(hello|hi|hey|greetings|namaste|morning|evening)\b", query):
         return (
-            "Hello! Welcome to Smart Agriculture Assistant. I am your AI farming assistant. "
-            "How can I help you today with crop recommendations, fertilizer advisory, disease identification, or market prices?"
+            "Hello! 🌾 Welcome to Smart Agriculture Assistant. I am your AI farming assistant.\n\n"
+            "How can I help you today with crop recommendations, soil NPK analysis, fertilizer dosage, plant disease diagnosis, or market prices?"
         )
 
-    if re.search(r"\b(crop|recommend|grow|plant|select)\b", query):
+    if re.search(r"\b(tomato|potato|onion|chilli|pepper|brinjal|eggplant|cabbage|cauliflower|vegetable)\b", query):
         return (
-            "### Crop Recommendation Advisory\n\n"
-            "* **Rice / Paddy**: Best in clayey or loamy soil with high rainfall (>150cm) and temperature 22-32°C.\n"
-            "* **Wheat**: Thrives in well-drained loamy soil, cool climate (15-22°C), moderate water.\n"
-            "* **Pulses (Chickpea, Pigeonpea)**: Require nitrogen-fixing soil, lower rainfall, N:P:K balance ~20:40:20.\n"
-            "* **Cotton**: Prefers black cotton soil (Regur), high temperature (21-30°C), and 180 frost-free days.\n\n"
-            "Tip: Use our Crop Recommendation tool on the dashboard to test your exact soil NPK values!"
+            "### Vegetable Crop Advisory\n\n"
+            "* **Tomato / Solanaceous Crops**: Requires well-drained loamy soil with pH 6.0-7.0. Apply N:P:K ~100:60:60 kg/ha. Protect against Late Blight using Mancozeb (2g/L).\n"
+            "* **Potato**: Thrives in cool weather (15-20°C) with loose, friable soil. Apply earthing up at 30 days post-planting to prevent tuber greening.\n"
+            "* **Onion & Garlic**: Require sulfur-fortified soil for pungency and bulb development. Apply Ammonium Sulfate or Single Super Phosphate (SSP).\n\n"
+            "Tip: Check leaf images in our Disease Detection section if you notice yellowing or dark spots!"
         )
 
-    if re.search(r"\b(fertilizer|urea|dap|mop|npk|nitrogen|potassium|phosphorus)\b", query):
+    if re.search(r"\b(rice|paddy|wheat|maize|corn|sugarcane|cotton|pulse|gram|chickpea|soybean)\b", query):
         return (
-            "### Fertilizer & Soil Health Guidance\n\n"
-            "* **Nitrogen Deficiency**: Causes yellowing of older leaves. Remedy: Apply Urea (46% N) or Ammonium Sulfate.\n"
-            "* **Phosphorus Deficiency**: Causes purple-tinted leaves and stunted root growth. Remedy: Apply DAP or Single Super Phosphate (SSP).\n"
-            "* **Potassium Deficiency**: Causes burnt leaf tips and weak stems. Remedy: Apply Muriate of Potash (MOP / 60% K2O).\n\n"
-            "Tip: Visit our Fertilizer Advisor section to upload your soil lab card for exact dosage breakdown!"
+            "### Major Field Crop Advisory\n\n"
+            "* **Rice / Paddy**: Requires clayey/loamy soil, standing water during tillering, N:P:K 120:60:60. Watch for Bacterial Leaf Blight and Stem Borer.\n"
+            "* **Wheat**: Prefers well-drained loamy soil, cool growth period (15-22°C), crown root initiation (CRI) irrigation at 21 days.\n"
+            "* **Maize / Corn**: High nitrogen consumer. Split Nitrogen application into 3 doses (basal, knee-high, and flowering stage).\n"
+            "* **Cotton**: Needs black regur soil, warm temperature (21-30°C), and Pink Bollworm control using pheromone traps.\n\n"
+            "Tip: Try our Crop Recommendation tool on the sidebar to get AI-matched crop suggestions for your soil!"
         )
 
-    if re.search(r"\b(disease|pest|fungus|blight|rust|yellow|spot|insects|leaf)\b", query):
+    if re.search(r"\b(fertilizer|urea|dap|mop|npk|nitrogen|potassium|phosphorus|zinc|sulfur|compost|manure|organic)\b", query):
         return (
-            "### Crop Disease & Pest Control\n\n"
-            "1. **Bacterial Leaf Blight**: Use Copper Oxychloride (0.2%) + Streptocycline (0.01%). Avoid excessive Nitrogen.\n"
-            "2. **Powdery Mildew / Rust**: Spray Wettable Sulfur (0.2%) or Hexaconazole 5% EC.\n"
-            "3. **Aphids & Whiteflies**: Spray Neem Oil (5ml/L) or Imidacloprid (0.5ml/L) in early morning.\n\n"
-            "Tip: Take a picture of the affected leaf and upload it to our Disease Detection tool for instant image analysis!"
+            "### Fertilizer & Soil Nutrition Guidance\n\n"
+            "* **Nitrogen (N)**: Promotes leafy green growth. Deficiency causes pale yellowing of bottom leaves. Remedy: Apply Urea (46% N) or Neem Coated Urea.\n"
+            "* **Phosphorus (P)**: Essential for root setup & flowering. Deficiency causes purplish leaf edges. Remedy: Apply DAP (18-46-0) or SSP.\n"
+            "* **Potassium (K)**: Increases disease resistance and grain filling. Remedy: Apply Muriate of Potash (MOP - 60% K2O).\n"
+            "* **Micronutrients (Zinc/Boron)**: Apply Zinc Sulfate (25 kg/ha) if leaves show interveinal chlorosis.\n\n"
+            "Tip: Visit our Fertilizer Advisor section to upload your soil lab report!"
         )
 
-    if re.search(r"\b(weather|rain|water|irrigation|temperature|monsoon)\b", query):
+    if re.search(r"\b(disease|pest|fungus|blight|rust|yellow|spot|insects|worm|aphid|whitefly|wilt|mildew|leaf)\b", query):
         return (
-            "### Weather & Irrigation Management\n\n"
-            "* Maintain proper field drainage during heavy rains to prevent root rot.\n"
-            "* Use Drip Irrigation for sugarcane, cotton, and vegetables to save up to 50% water.\n"
-            "* Apply irrigation during early morning or late evening to minimize evaporative loss."
+            "### Pest & Plant Disease Management\n\n"
+            "1. **Fungal Blights & Rusts**: Spray Copper Oxychloride (0.2%) or Mancozeb (2g/L). Avoid overhead sprinkler watering.\n"
+            "2. **Sucking Pests (Aphids, Thrips, Whiteflies)**: Spray Neem Oil (5ml/L water) or Imidacloprid 17.8 SL (0.5ml/L) early morning.\n"
+            "3. **Soil-borne Wilts / Root Rot**: Drench soil with Trichoderma viride or Carbendazim (1g/L).\n\n"
+            "Tip: Upload a leaf photo to our Disease Detection page for instant AI diagnosis!"
         )
 
-    if re.search(r"\b(market|price|mandi|rate|sell|cost)\b", query):
+    if re.search(r"\b(weather|rain|water|irrigation|temperature|monsoon|drip|sprinkler)\b", query):
         return (
-            "### Market Intelligence Advisory\n\n"
-            "* Monitor daily MSP (Minimum Support Price) and regional mandi price fluctuations before harvesting.\n"
-            "* Store non-perishable grains in certified warehouses to sell during peak price windows.\n\n"
-            "Tip: Check our Market Intelligence tab to view live Mandi price updates across commodities!"
+            "### Weather & Water Management Advisory\n\n"
+            "* **Drip Irrigation**: Recommended for cotton, sugarcane, and fruit orchards to save 40-60% water.\n"
+            "* **Drainage**: Ensure proper ridge-and-furrow drainage during heavy monsoon rains to prevent root rot.\n"
+            "* **Irrigation Timing**: Irrigate early morning or evening to minimize evaporation losses."
+        )
+
+    if re.search(r"\b(market|price|mandi|rate|sell|cost|msp|profit)\b", query):
+        return (
+            "### Market Intelligence & Selling Strategy\n\n"
+            "* **Mandi Price Monitoring**: Compare daily market rates across nearby mandis before selling harvest.\n"
+            "* **Minimum Support Price (MSP)**: Register on government portals (e-NAM) to secure fair pricing.\n"
+            "* **Storage**: Utilize cold storage or e-NWR warehouse receipts to hold produce during market gluts.\n\n"
+            "Tip: Explore our Market Intelligence page for daily crop prices and regional trends!"
         )
 
     return (
-        "### Smart Agriculture Assistant Advice\n\n"
-        f"Regarding your query on '{user_query}':\n"
-        "1. Ensure balanced soil nutrition (N-P-K) tested every season.\n"
-        "2. Monitor regional weather forecasts before pesticide application or irrigation.\n"
-        "3. Rotate leguminous crops with cereals to maintain soil microbial health.\n\n"
-        "Feel free to ask about specific crops, fertilizer ratios, or plant disease treatments!"
+        "### Smart Agriculture Assistant Advisory\n\n"
+        f"Regarding your query on **'{user_query}'**:\n\n"
+        "1. **Soil & Nutrition**: Test soil N-P-K and pH balance prior to sowing.\n"
+        "2. **Crop Care**: Maintain proper crop rotation and integrated pest management (IPM).\n"
+        "3. **Water & Weather**: Adjust irrigation based on local weather forecasts and growth stages.\n\n"
+        "Feel free to ask about specific crops, fertilizer calculation, plant symptoms, or Mandi rates!"
     )
 
 

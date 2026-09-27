@@ -357,6 +357,9 @@ function buildChatWidget() {
       <label class="visually-hidden" for="chatText">Message</label>
       <input class="input" id="chatText" autocomplete="off"
              placeholder="Ask about crops, pests, prices…" required />
+      <button class="icon-btn" id="widgetMicBtn" type="button" aria-label="Voice input" title="Speak question" style="margin-right:4px">
+        <span class="mi" aria-hidden="true">mic</span>
+      </button>
       <button class="chat-send" type="submit" aria-label="Send message">
         <span class="mi" aria-hidden="true">send</span></button>
     </form>`;
@@ -375,13 +378,115 @@ function buildChatWidget() {
   const sessionKey = 'saa.chat.session';
   let sessionId = sessionStorage.getItem(sessionKey) || null;
 
+  function formatMarkdown(str) {
+    if (!str) return '';
+    let s = esc(String(str));
+    s = s.replace(/^### (.*$)/gim, '<h4 style="margin:6px 0 3px;font-weight:700;color:var(--leaf-dark, #1b4332);">$1</h4>');
+    s = s.replace(/^## (.*$)/gim, '<h3 style="margin:8px 0 4px;font-weight:700;">$1</h3>');
+    s = s.replace(/^# (.*$)/gim, '<h2 style="margin:10px 0 6px;font-weight:800;">$1</h2>');
+    s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    s = s.replace(/^[\*\-] (.*$)/gim, '<li style="margin-left:14px;list-style-type:disc;">$1</li>');
+    s = s.replace(/^\d+\.\s+(.*$)/gim, '<li style="margin-left:14px;list-style-type:decimal;">$1</li>');
+    s = s.replace(/(<li.*?>.*?<\/li>\s*)+/g, (m) => `<ul style="margin:4px 0;padding-left:6px;">${m}</ul>`);
+    s = s.replace(/\n\n/g, '<div style="height:4px"></div>');
+    s = s.replace(/\n/g, '<br>');
+    return s;
+  }
+
+  function playVoiceover(rawText, btn) {
+    const clean = String(rawText || '').replace(/<[^>]+>/g, '').replace(/[\*#_`]/g, '').trim();
+    if (!clean) return;
+
+    if ('speechSynthesis' in window) {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        if (btn) btn.innerHTML = '<span class="mi" style="font-size:14px">volume_up</span> Listen';
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utt = new SpeechSynthesisUtterance(clean);
+      utt.rate = 1.0;
+      utt.pitch = 1.0;
+      utt.lang = 'en-US';
+
+      if (btn) {
+        btn.innerHTML = '<span class="mi" style="font-size:14px">volume_off</span> Stop';
+        utt.onend = () => { btn.innerHTML = '<span class="mi" style="font-size:14px">volume_up</span> Listen'; };
+        utt.onerror = () => { btn.innerHTML = '<span class="mi" style="font-size:14px">volume_up</span> Listen'; };
+      }
+      window.speechSynthesis.speak(utt);
+      Toast.info('Speaking answer...');
+      return;
+    }
+
+    API.speak(clean).then((res) => {
+      let src = res instanceof Blob ? URL.createObjectURL(res) : null;
+      if (src) {
+        const audio = new Audio(src);
+        audio.play();
+        Toast.info('Playing voiceover...');
+      }
+    }).catch(() => {
+      Toast.error('Voiceover audio unavailable.');
+    });
+  }
+
   const bubble = (text, who) => {
-    const b = el('div', { class: `msg ${who}` }, esc(text));
+    const isBot = who === 'bot';
+    const formattedHtml = isBot ? formatMarkdown(text) : esc(text);
+    const b = el('div', { class: `msg ${who}` }, formattedHtml);
+
+    if (isBot) {
+      const actions = el('div', { class: 'msg-actions', style: 'margin-top:6px;display:flex;gap:4px;' });
+      const speakBtn = el('button', {
+        class: 'btn btn--ghost btn--sm',
+        style: 'padding:2px 6px;font-size:0.72rem;border-radius:10px;'
+      }, '<span class="mi" style="font-size:14px">volume_up</span> Listen');
+
+      speakBtn.onclick = () => playVoiceover(text, speakBtn);
+      actions.appendChild(speakBtn);
+      b.appendChild(actions);
+    }
+
     log.appendChild(b);
     log.scrollTop = log.scrollHeight;
     return b;
   };
   bubble('Hi! I\'m AgriBot 🌱 Ask me about crop choice, fertilizer dosage, pests or market prices.', 'bot');
+
+  const widgetMic = $('#widgetMicBtn');
+  const widgetInput = $('#chatText');
+  if (widgetMic && widgetInput) {
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRec) {
+      let rec = null;
+      let listening = false;
+      widgetMic.onclick = () => {
+        if (listening && rec) { try { rec.stop(); } catch {} return; }
+        try {
+          rec = new SpeechRec();
+          rec.lang = 'en-US';
+          rec.onstart = () => {
+            listening = true;
+            widgetMic.style.color = '#ef4444';
+            widgetMic.querySelector('.mi').textContent = 'mic_off';
+            Toast.info('Listening… speak now.');
+          };
+          rec.onresult = (e) => {
+            const txt = e.results[0][0].transcript;
+            if (txt) { widgetInput.value = txt; Toast.success('Transcribed!'); }
+          };
+          rec.onend = () => {
+            listening = false;
+            widgetMic.style.color = '';
+            widgetMic.querySelector('.mi').textContent = 'mic';
+          };
+          rec.start();
+        } catch {}
+      };
+    }
+  }
 
   $('#chatForm').addEventListener('submit', async (e) => {
     e.preventDefault();

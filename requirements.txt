@@ -27,6 +27,7 @@ PyMuPDF
 
 # Speech / translation (lightweight, API-based, no local models)
 gTTS
+SpeechRecognition
 deep-translator
 groq
 

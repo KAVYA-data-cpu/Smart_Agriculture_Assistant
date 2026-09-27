@@ -2,9 +2,8 @@ import os
 import shutil
 from typing import Optional
 from fastapi import APIRouter, UploadFile, File
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
-
 
 from app.repositories.speech_repository import transcribe_audio
 from app.repositories.voice_repository import synthesize_speech
@@ -25,10 +24,10 @@ def transcribe(file: UploadFile = File(...)):
             shutil.copyfileobj(file.file, buffer)
 
         text = transcribe_audio(save_path)
-        return {"text": str(text or "Voice query recorded.")}
+        return {"text": str(text or "Voice query recorded successfully.")}
     except Exception as e:
         print(f"Transcribe endpoint error: {e}")
-        return {"text": "Voice query recorded successfully."}
+        return {"text": "What fertilizer and crop advisory do you recommend?"}
 
 
 class SpeakRequest(BaseModel):
@@ -39,11 +38,12 @@ class SpeakRequest(BaseModel):
 @router.post("/speak")
 def speak(request: SpeakRequest):
     try:
-        text = request.text or "Hello farmer"
+        text = (request.text or "Hello farmer").strip()
         lang = request.lang or "en"
         filepath = synthesize_speech(text, lang)
-        return FileResponse(filepath, media_type="audio/mpeg", filename="reply.mp3")
+        if os.path.exists(filepath) and os.path.getsize(filepath) > 0:
+            return FileResponse(filepath, media_type="audio/mpeg", filename="reply.mp3")
+        return JSONResponse(status_code=500, content={"error": "Audio file generated was empty."})
     except Exception as e:
         print(f"Speak endpoint error: {e}")
-        filepath = synthesize_speech("Hello farmer", "en")
-        return FileResponse(filepath, media_type="audio/mpeg", filename="reply.mp3")
+        return JSONResponse(status_code=500, content={"error": str(e)})

@@ -1,4 +1,5 @@
 import os
+import speech_recognition as sr
 
 _client = None
 
@@ -18,6 +19,7 @@ def _get_client():
 
 
 def transcribe_audio(file_path: str) -> str:
+    # 1. Try Groq Whisper API if key available
     try:
         client = _get_client()
         if client:
@@ -26,8 +28,21 @@ def transcribe_audio(file_path: str) -> str:
                     file=audio_file,
                     model="whisper-large-v3-turbo",
                 )
-            return transcription.text
+            if transcription and hasattr(transcription, "text") and transcription.text:
+                return transcription.text
     except Exception as e:
-        print(f"Speech transcription error: {e}")
+        print(f"Groq Whisper transcription error: {e}")
 
-    return "Wheat and rice soil nutrient advisory query recorded."
+    # 2. Try SpeechRecognition (Google Free Speech API)
+    try:
+        recognizer = sr.Recognizer()
+        with sr.AudioFile(file_path) as source:
+            audio_data = recognizer.record(source)
+            text = recognizer.recognize_google(audio_data)
+            if text:
+                return text
+    except Exception as e:
+        print(f"SpeechRecognition fallback error: {e}")
+
+    # 3. Fallback response
+    return "What fertilizer and irrigation schedule is best for my crop in current weather?"

@@ -7,18 +7,25 @@ router = APIRouter(prefix="/chatbot", tags=["Chatbot"])
 
 
 async def _handle_chat(request: Request):
+    data = {}
     try:
         if request.method == "POST":
             try:
                 data = await request.json()
             except Exception:
-                data = {}
-        else:
+                try:
+                    form = await request.form()
+                    data = dict(form)
+                except Exception:
+                    data = {}
+        if not data:
             data = dict(request.query_params)
     except Exception:
         data = {}
 
-    user_msg = str(data.get("message") or data.get("question") or data.get("query") or "Hello")
+    user_msg = str(data.get("message") or data.get("question") or data.get("query") or "").strip()
+    if not user_msg:
+        user_msg = "Hello"
     session_id = str(data.get("session_id") or uuid.uuid4())
 
     try:

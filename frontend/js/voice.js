@@ -6,13 +6,18 @@
   let recorder = null;
   let chunks = [];
   let recording = false;
+  let capturedText = null;
 
-  function setStatus(text) { $('#micStatus').textContent = text; }
+  function setStatus(text) {
+    const el = $('#micStatus');
+    if (el) el.textContent = text;
+  }
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let webSpeechRec = null;
 
   async function start() {
+    capturedText = null;
     if (SpeechRecognition) {
       try {
         webSpeechRec = new SpeechRecognition();
@@ -21,8 +26,8 @@
         webSpeechRec.lang = 'en-US';
 
         webSpeechRec.onresult = (e) => {
-          const transcriptText = e.results[0][0].transcript;
-          renderTranscript(transcriptText);
+          capturedText = e.results[0][0].transcript;
+          renderTranscript(capturedText);
         };
 
         webSpeechRec.onerror = () => {
@@ -31,6 +36,11 @@
 
         webSpeechRec.onend = () => {
           stopUI();
+          if (capturedText) {
+            setStatus('Transcription complete. Tap the microphone to record again.');
+          } else {
+            setStatus('Tap the microphone to start recording.');
+          }
         };
 
         webSpeechRec.start();
@@ -67,20 +77,23 @@
   }
 
   function startUI() {
-    $('#micBtn').classList.add('is-recording');
-    $('#micBtn').setAttribute('aria-pressed', 'true');
-    $('#micBtn').querySelector('.mi').textContent = 'stop';
-    $('#wave').classList.remove('hidden');
+    const micBtn = $('#micBtn');
+    if (!micBtn) return;
+    micBtn.classList.add('is-recording');
+    micBtn.setAttribute('aria-pressed', 'true');
+    micBtn.querySelector('.mi').textContent = 'stop';
+    $('#wave')?.classList.remove('hidden');
     setStatus('Listening… speak now, or tap stop.');
   }
 
   function stopUI() {
     recording = false;
-    $('#micBtn').classList.remove('is-recording');
-    $('#micBtn').setAttribute('aria-pressed', 'false');
-    $('#micBtn').querySelector('.mi').textContent = 'mic';
-    $('#wave').classList.add('hidden');
-    setStatus('Processing audio…');
+    const micBtn = $('#micBtn');
+    if (!micBtn) return;
+    micBtn.classList.remove('is-recording');
+    micBtn.setAttribute('aria-pressed', 'false');
+    micBtn.querySelector('.mi').textContent = 'mic';
+    $('#wave')?.classList.add('hidden');
   }
 
   function stop() {
@@ -95,6 +108,7 @@
 
   function renderTranscript(text) {
     const panel = $('#transcriptPanel');
+    if (!panel) return;
     UI.ready(panel);
     if (!text) return UI.empty(panel, 'No speech detected. Try speaking closer to microphone.', 'mic_off');
     panel.innerHTML = `<div class="card card--glass" style="text-align:left">
@@ -103,13 +117,20 @@
       <div class="row wrap actions mt-1">
         <button class="btn btn--primary btn--sm" id="useTranscript"><span class="mi">volume_up</span>Read it back</button>
       </div></div>`;
-    $('#useTranscript').onclick = () => { $('#speakText').value = text; $('#speakForm').requestSubmit(); };
+    $('#useTranscript').onclick = () => {
+      const textNode = $('#speakText');
+      if (textNode) {
+        textNode.value = text;
+        $('#speakForm')?.requestSubmit();
+      }
+    };
     setStatus('Transcription complete. Tap the microphone to record again.');
     Toast.success('Voice transcribed successfully.');
   }
 
   async function transcribe(blob) {
     const panel = $('#transcriptPanel');
+    if (!panel) return;
     UI.loading(panel, 'Transcribing your voice…');
     try {
       const res = await API.transcribe(blob, 'recording.webm');
@@ -122,41 +143,78 @@
     }
   }
 
+  function speakClientSide(text) {
+    const panel = $('#audioPanel');
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const clean = text.replace(/<[^>]+>/g, '').replace(/[\*#_`]/g, '').trim();
+      const utt = new SpeechSynthesisUtterance(clean);
+      utt.rate = 1.0;
+      utt.pitch = 1.0;
+      utt.lang = 'en-US';
+      window.speechSynthesis.speak(utt);
+      if (panel) {
+        panel.innerHTML = `<div class="alert info" style="display:flex;align-items:center;gap:8px;">
+          <span class="mi">campaign</span>
+          <div>Reading aloud via Web Speech voiceover engine...</div>
+        </div>`;
+      }
+      Toast.success('Playing voiceover...');
+      return true;
+    }
+    return false;
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    $('#micBtn').onclick = () => (recording ? stop() : start());
+    const micBtn = $('#micBtn');
+    if (micBtn) {
+      micBtn.onclick = () => (recording ? stop() : start());
+    }
 
-    $('#speakForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const { valid, values } = Validate.form(e.target, { text: { required: true, label: 'Text' } });
-      if (!valid) return;
+    const speakForm = $('#speakForm');
+    if (speakForm) {
+      speakForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const { valid, values } = Validate.form(e.target, { text: { required: true, label: 'Text' } });
+        if (!valid) return;
 
-      const restore = UI.busy($('#speakSubmit'), 'Generating…');
-      const panel = $('#audioPanel');
-      UI.loading(panel, 'Generating speech…');
-      try {
-        const res = await API.speak(values.text);
-        UI.ready(panel);
-        // The backend may return an audio blob, a URL, or base64 audio.
-        let src = null;
-        if (res instanceof Blob) src = URL.createObjectURL(res);
-        else if (typeof res === 'string' && /^https?:|^data:/.test(res)) src = res;
-        else {
-          const url = pick(res, ['audio_url', 'url', 'file', 'path']);
-          const b64 = pick(res, ['audio', 'audio_base64', 'base64', 'content']);
-          if (url) src = /^https?:|^data:/.test(String(url)) ? String(url) : API.url(String(url));
-          else if (b64) src = `data:audio/mpeg;base64,${b64}`;
-        }
-        if (!src) {
-          panel.innerHTML = `<div class="alert info"><span class="mi">info</span>
-            <div>Speech generated, but no playable audio was returned by the backend.</div></div>`;
-          return;
-        }
-        panel.innerHTML = `<audio controls autoplay src="${esc(src)}" style="width:100%"></audio>`;
-        Toast.success('Audio ready.');
-      } catch (err) {
-        UI.error(panel, err.message);
-        Toast.error(err.message);
-      } finally { restore(); }
-    });
+        const restore = UI.busy($('#speakSubmit'), 'Generating…');
+        const panel = $('#audioPanel');
+        UI.loading(panel, 'Generating speech…');
+
+        try {
+          const res = await API.speak(values.text);
+          UI.ready(panel);
+
+          let src = null;
+          if (res instanceof Blob) src = URL.createObjectURL(res);
+          else if (typeof res === 'string' && /^https?:|^data:/.test(res)) src = res;
+          else {
+            const url = pick(res, ['audio_url', 'url', 'file', 'path']);
+            const b64 = pick(res, ['audio', 'audio_base64', 'base64', 'content']);
+            if (url) src = /^https?:|^data:/.test(String(url)) ? String(url) : API.url(String(url));
+            else if (b64) src = `data:audio/mpeg;base64,${b64}`;
+          }
+
+          if (!src) {
+            const spoken = speakClientSide(values.text);
+            if (!spoken && panel) {
+              panel.innerHTML = `<div class="alert info"><span class="mi">info</span>
+                <div>Speech generated, but no playable audio was returned by the backend.</div></div>`;
+            }
+            return;
+          }
+
+          panel.innerHTML = `<audio controls autoplay src="${esc(src)}" style="width:100%"></audio>`;
+          Toast.success('Audio ready.');
+        } catch (err) {
+          const spoken = speakClientSide(values.text);
+          if (!spoken) {
+            UI.error(panel, err.message);
+            Toast.error(err.message);
+          }
+        } finally { restore(); }
+      });
+    }
   });
 })();
