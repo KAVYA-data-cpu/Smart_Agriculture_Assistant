@@ -6,20 +6,20 @@ _client = None
 
 def _get_client():
     global _client
-    api_key = os.environ.get("GROQ_API_KEY")
-    if not api_key:
-        return None
-    if _client is None:
-        try:
+    try:
+        api_key = os.environ.get("GROQ_API_KEY")
+        if not api_key:
+            return None
+        if _client is None:
             from groq import Groq
             _client = Groq(api_key=api_key)
-        except Exception:
-            return None
-    return _client
+        return _client
+    except Exception:
+        return None
 
 
 def _fallback_agri_response(user_query: str) -> str:
-    query = user_query.lower()
+    query = str(user_query or "").lower()
 
     if re.search(r"\b(hello|hi|hey|greetings|namaste)\b", query):
         return (
@@ -59,7 +59,7 @@ def _fallback_agri_response(user_query: str) -> str:
         return (
             "### Weather & Irrigation Management\n\n"
             "* Maintain proper field drainage during heavy rains to prevent root rot.\n"
-            * "Use Drip Irrigation for sugarcane, cotton, and vegetables to save up to 50% water.\n"
+            "* Use Drip Irrigation for sugarcane, cotton, and vegetables to save up to 50% water.\n"
             "* Apply irrigation during early morning or late evening to minimize evaporative loss."
         )
 
@@ -83,10 +83,14 @@ def _fallback_agri_response(user_query: str) -> str:
 
 def get_chat_response(messages: list[dict]) -> str:
     user_query = ""
-    for msg in reversed(messages):
-        if msg.get("role") == "user":
-            user_query = msg.get("content", "")
-            break
+    try:
+        if isinstance(messages, list):
+            for msg in reversed(messages):
+                if isinstance(msg, dict) and msg.get("role") == "user":
+                    user_query = msg.get("content", "")
+                    break
+    except Exception:
+        pass
 
     try:
         client = _get_client()
@@ -105,6 +109,3 @@ def get_chat_response(messages: list[dict]) -> str:
         print(f"Groq LLM error: {e}")
 
     return _fallback_agri_response(user_query)
-
-
-
