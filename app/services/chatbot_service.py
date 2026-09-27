@@ -18,15 +18,20 @@ def _get_session(session_id: str) -> list[dict]:
 
 
 def ask(session_id: str, question: str) -> str:
-    history = _get_session(session_id)
-    history.append({"role": "user", "content": question})
+    try:
+        history = _get_session(session_id)
+        history.append({"role": "user", "content": question})
 
-    trimmed = [history[0]] + history[1:][-MAX_HISTORY_MESSAGES:]
+        trimmed = [history[0]] + history[1:][-MAX_HISTORY_MESSAGES:]
 
-    reply = chatbot_repository.get_chat_response(trimmed)
-    history.append({"role": "assistant", "content": reply})
+        reply = chatbot_repository.get_chat_response(trimmed)
+        history.append({"role": "assistant", "content": reply})
 
-    return reply
+        return reply
+    except Exception as e:
+        print(f"Chatbot ask service error: {e}")
+        return "Hello! I am your AI farming assistant. How can I help you with crop recommendation, fertilizers, or pest management today?"
+
 
 def get_all_sessions() -> list[dict]:
     sessions = []
