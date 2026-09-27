@@ -91,15 +91,20 @@ def get_chat_response(messages: list[dict]) -> str:
     try:
         client = _get_client()
         if client:
-            response = client.chat.completions.create(
-                model="llama-3.1-8b-instant",
-                messages=messages,
-                max_tokens=400,
-            )
-            return response.choices[0].message.content
+            for model_name in ["llama-3.3-70b-versatile", "llama3-8b-8192", "mixtral-8x7b-32768"]:
+                try:
+                    response = client.chat.completions.create(
+                        model=model_name,
+                        messages=messages,
+                        max_tokens=400,
+                    )
+                    return response.choices[0].message.content
+                except Exception:
+                    continue
     except Exception as e:
         print(f"Groq LLM error: {e}")
 
     return _fallback_agri_response(user_query)
+
 
 
