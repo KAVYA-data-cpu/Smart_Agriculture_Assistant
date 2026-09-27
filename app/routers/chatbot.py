@@ -6,9 +6,7 @@ from app.services.chatbot_service import ask, get_all_sessions, get_session_hist
 router = APIRouter(prefix="/chatbot", tags=["Chatbot"])
 
 
-@router.post("/ask")
-@router.get("/ask")
-async def chat(request: Request):
+async def _handle_chat(request: Request):
     try:
         if request.method == "POST":
             try:
@@ -35,6 +33,16 @@ async def chat(request: Request):
         "answer": str(reply),
         "session_id": str(session_id)
     })
+
+
+@router.get("/ask")
+async def chat_get(request: Request):
+    return await _handle_chat(request)
+
+
+@router.post("/ask")
+async def chat_post(request: Request):
+    return await _handle_chat(request)
 
 
 @router.get("/sessions")
